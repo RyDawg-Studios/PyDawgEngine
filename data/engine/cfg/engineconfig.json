@@ -1,0 +1,8 @@
+{
+    "config":
+    {
+        "caption": "LEUKOSITE",
+        "dimensions": "(640, 480)",
+        "icon": "r'data\\game\\assets\\sci_bloodcell.png'"
+    }
+}
