@@ -13,5 +13,3 @@ class ConfigManager():
     def update(self):
         pass
         
-    def activate(self):
-        pass

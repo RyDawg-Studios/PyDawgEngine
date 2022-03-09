@@ -64,7 +64,3 @@ class InputManager():
         if pygame.K_ESCAPE in self.key_inputs:
             pygame.quit()
             sys.exit()
-
-
-    def activate(self):
-        pass

@@ -49,9 +49,6 @@ class DisplayManager:
         self.surfs[0] = self.bg
 
         self.bg = True
-    def activate(self):
-        self.configurewindow()
-
 
 
 
