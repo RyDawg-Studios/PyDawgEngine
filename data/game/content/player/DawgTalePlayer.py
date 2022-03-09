@@ -1,19 +1,11 @@
 import random
-
-import pygame
 from data.engine.actor.actor import Actor
-from data.engine.gravity.gravity_component import GravityComponent
-from data.engine.player.player_controller import PlayerController
+from data.game.content.player.SciGameController import SciGameController
 from data.engine.sprite.sprite_component import SpriteComponent
-from data.engine.widgets.button import Button
 from data.game.content.objects.badblood import SickleCell
 from data.game.content.objects.bullet import Bullet
-from data.game.content.objects.coin.coin import Coin
-from data.game.content.objects.projectile import Projectile
 from data.game.content.objects.reticle import Reticle
-from data.game.content.objects.wall_projectile import WallProjectile
 from data.engine.fl import world_fl
-from data.game.content.objects.widgets.loadgame import LoadGameButton
 
 
 class DawgTalePlayer(Actor):
@@ -42,7 +34,7 @@ class DawgTalePlayer(Actor):
         super().__init__(man, pde)
 
         self.components["Sprite"] = SpriteComponent(owner=self, sprite=r'data\game\assets\sci_wbloodcell.png', layer=6 )
-        self.components["PlayerController"] = PlayerController(owner=self)
+        self.components["PlayerController"] = SciGameController(owner=self)
 
         self.reticle = self.man.add_object(Reticle(man=self.man, pde=pde, player=self))
 

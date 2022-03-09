@@ -1,10 +1,11 @@
+from re import S
 import pygame
 from data.engine.display.display_manager import DisplayManager
 from data.engine.event.event_manager import EventManager
 from data.engine.input.input_manager import InputManager
 from data.engine.level.level_manager import LevelManager
 from data.engine.mouse.mouse_manager import MouseManager
-from data.engine.game.game import Game
+from data.engine.player.player_manger import PlayerManager
 from data.game.content.sci_game import Eukaryosite
 
 
@@ -29,6 +30,9 @@ class PyDawgEngine:
         self.input_manager = InputManager(pde=self)
         self.input_manager.active = True
 
+        self.player_manager = PlayerManager(pde=self)
+        self.player_manager.active = True
+
         self.active = False
 
         self.clock = pygame.time.Clock()
@@ -40,7 +44,7 @@ class PyDawgEngine:
         self.startengine()
 
     def startengine(self):
-        for man in [self.display_manager, self.event_manager, self.mouse_manager, self.level_manager, self.input_manager]:
+        for man in [self.display_manager, self.event_manager, self.mouse_manager, self.level_manager, self.input_manager, self.player_manager]:
             if man.active == False:
                 raise Exception(str(man) + " Was not active on engine start. Did you properly initialize it?")
             else: man.activate()
