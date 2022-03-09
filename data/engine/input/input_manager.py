@@ -13,11 +13,13 @@ class InputManager():
         self.controller_inputs = []
         self.joystick_inputs = None
         self.hat_inputs = (0, 0)
+ 
+    def activate(self):
         self.joysticks = [pygame.joystick.Joystick(x) for x in range(pygame.joystick.get_count())]
         for j in self.joysticks:
             print(j)
             j.init()
- 
+
     def update(self):
         self.mouse_inputs = pygame.mouse.get_pressed(5)
         self.mouse_position = pygame.mouse.get_pos()

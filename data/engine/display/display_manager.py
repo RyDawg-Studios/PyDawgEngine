@@ -7,18 +7,13 @@ class DisplayManager:
         self.active = False
         self.pde = pde
         self.surfs = {}
-
-        self.screen = pygame.display.set_mode((640, 480), pygame.FULLSCREEN)
-        #, pygame.FULLSCREEN
         self.bg = False
-
         self.bgimg = ''
+        
 
-        file = open(r"data\engine\cfg\engineconfig.json")
-        self.cfg = json.load(file)
+    def activate(self):
+        self.configurewindow()
 
-        self.icon = pygame.image.load(eval(self.cfg["config"]["icon"]))
-        pygame.display.set_icon(self.icon)
 
 
     def update(self):
@@ -37,8 +32,10 @@ class DisplayManager:
 
     def configurewindow(self):
 
-        cap = self.cfg["config"]["caption"]
-        pygame.display.set_caption(cap)
+        self.screen = pygame.display.set_mode((640, 480), pygame.FULLSCREEN)
+
+        pygame.display.set_icon(pygame.image.load(eval(self.pde.config_manager.config["config"]["icon"])))
+        pygame.display.set_caption(self.pde.config_manager.config["config"]["caption"])
 
         self.createsurf(id=0)
 

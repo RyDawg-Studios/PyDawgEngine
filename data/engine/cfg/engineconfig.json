@@ -1,8 +1,10 @@
 {
     "config":
     {
-        "caption": "LEUKOSITE",
+        "caption": "PyDawgEngine",
         "dimensions": "(640, 480)",
-        "icon": "r'data\\game\\assets\\sci_bloodcell.png'"
+        "icon": "r'data\\game\\assets\\sci_bloodcell.png'",
+        "fullscreen": "False",
+        "hideMouseCurson": "False"
     }
 }

@@ -1,19 +1,20 @@
 from re import S
 import pygame
+from data.engine.debug.debugGame import DebugGame
 from data.engine.display.display_manager import DisplayManager
 from data.engine.event.event_manager import EventManager
 from data.engine.input.input_manager import InputManager
 from data.engine.level.level_manager import LevelManager
 from data.engine.mouse.mouse_manager import MouseManager
 from data.engine.player.player_manger import PlayerManager
-from data.game.content.sci_game import Eukaryosite
+from data.engine.cfg.config_manager import ConfigManager
 
 
 class PyDawgEngine:
 
     def __init__(self) -> None:
 
-        self.game = Eukaryosite(pde=self)
+        self.game = DebugGame(pde=self)
 
         self.display_manager = DisplayManager(pde=self)
         self.display_manager.active = True
@@ -33,6 +34,9 @@ class PyDawgEngine:
         self.player_manager = PlayerManager(pde=self)
         self.player_manager.active = True
 
+        self.config_manager = ConfigManager(pde=self)
+        self.config_manager.active = True
+
         self.active = False
 
         self.clock = pygame.time.Clock()
@@ -44,7 +48,7 @@ class PyDawgEngine:
         self.startengine()
 
     def startengine(self):
-        for man in [self.display_manager, self.event_manager, self.mouse_manager, self.level_manager, self.input_manager, self.player_manager]:
+        for man in [self.display_manager, self.event_manager, self.mouse_manager, self.level_manager, self.input_manager, self.player_manager, self.config_manager]:
             if man.active == False:
                 raise Exception(str(man) + " Was not active on engine start. Did you properly initialize it?")
             else: man.activate()
@@ -63,10 +67,12 @@ class PyDawgEngine:
 
 
     def update(self):
+        self.config_manager.update()
         self.event_manager.update()
         self.mouse_manager.update()
         self.level_manager.update()
         self.input_manager.update()
+        self.player_manager.update()
         self.game.update()
         self.display_manager.update()
 
