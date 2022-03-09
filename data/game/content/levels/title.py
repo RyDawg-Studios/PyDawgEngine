@@ -15,6 +15,7 @@ class TitleLevel(Level):
         self.ticks = 0
         self.rot=0
         super().__init__(man, pde)
+        self.changebackground(r'data\game\assets\black.png')
 
         self.objectManager.add_object(Logo(man=self.objectManager, pde=pde, position=[310, 50]))
         self.objectManager.add_object(SignatureActor(man=self.objectManager, pde=pde, position=[580, 460]))

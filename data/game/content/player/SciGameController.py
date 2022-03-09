@@ -18,8 +18,7 @@ class SciGameController(PlayerController):
         elif pygame.K_LEFT in self.owner.pde.input_manager.key_inputs or pygame.K_a in self.owner.pde.input_manager.key_inputs:
             self.owner.speed[0] = -maxSpeed[0]
         else:
-            if self.resetPos:
-                self.owner.speed[0] = 0
+            self.owner.speed[0] = 0
 
         if pygame.K_UP in self.owner.pde.input_manager.key_inputs or pygame.K_w in self.owner.pde.input_manager.key_inputs:
             self.owner.speed[1] = -maxSpeed[1]
@@ -28,8 +27,7 @@ class SciGameController(PlayerController):
             self.owner.speed[1] = maxSpeed[1]
 
         else:
-            if self.resetPos:
-                self.owner.speed[1] = 0
+            self.owner.speed[1] = 0
 
         if self.owner.pde.input_manager.mouse_inputs[0] or pygame.K_SPACE in self.owner.pde.input_manager.key_inputs or self.owner.pde.input_manager.controller_axis_values[5] > 0:
             if self.ticks >= self.owner.shotInfo['fireRate']:

@@ -8,13 +8,14 @@ from data.engine.level.level_manager import LevelManager
 from data.engine.mouse.mouse_manager import MouseManager
 from data.engine.player.player_manger import PlayerManager
 from data.engine.cfg.config_manager import ConfigManager
+from data.game.content.sci_game import Eukaryosite
 
 
 class PyDawgEngine:
 
     def __init__(self) -> None:
 
-        self.game = DebugGame(pde=self)
+        self.game = Eukaryosite(pde=self)
 
         self.display_manager = DisplayManager(pde=self)
         self.display_manager.active = True

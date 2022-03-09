@@ -11,6 +11,11 @@ class LevelManager:
         level.active = active
         self.levels[name] = level
 
+    def changelevel(self, level, name, active):
+        self.clearlevels()
+        level.active = active
+        self.levels[name] = level
+
     def removelevel(self, level):
         for obj in list(self.levels[level].objectManager.objects.values()):
             obj.deconstruct()
@@ -20,6 +25,10 @@ class LevelManager:
         for level in list(self.levels):
             if self.levels[level].active:
                 self.levels[level].update()
+
+    def clearlevels(self):
+        for level in list(self.levels):
+            self.removelevel(level)
 
     def activate(self):
         pass

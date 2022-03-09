@@ -12,14 +12,14 @@ class Eukaryosite(Game):
         self.score = "No Score"
 
     def activate(self):
-        self.pde.level_manager.addlevel(level=TitleLevel(man=self.pde.level_manager, pde=self.pde), 
+        self.pde.level_manager.changelevel(level=TitleLevel(man=self.pde.level_manager, pde=self.pde), 
                                                                         name="Main", active=True)
 
     def loadstresslevel(self):
-        self.pde.level_manager.addlevel(level=StressLevel(man=self.pde.level_manager, pde=self.pde), 
+        self.pde.level_manager.changelevel(level=StressLevel(man=self.pde.level_manager, pde=self.pde), 
                                                                         name="Main", active=True)
     def loadbattlelevel(self):
-        self.pde.level_manager.addlevel(level=BattleLevel(man=self.pde.level_manager, pde=self.pde), 
+        self.pde.level_manager.changelevel(level=BattleLevel(man=self.pde.level_manager, pde=self.pde), 
                                                                         name="Main", active=True)
     def loadgameoverlevel(self, pos):
         self.pde.level_manager.addlevel(level=GameOverLevel(man=self.pde.level_manager, pde=self.pde), 
