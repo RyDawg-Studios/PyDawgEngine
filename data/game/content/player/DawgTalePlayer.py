@@ -1,5 +1,6 @@
 import random
 from data.engine.actor.actor import Actor
+from data.game.content.objects.covidbullet import CovidBullet
 from data.game.content.player.SciGameController import SciGameController
 from data.engine.sprite.sprite_component import SpriteComponent
 from data.game.content.objects.badblood import SickleCell
@@ -41,6 +42,10 @@ class DawgTalePlayer(Actor):
     def overlap(self, obj):
         if obj.__class__ == SickleCell:
             if not self.dead:
+                obj.deconstruct()
+                self.takedamage(1)
+        if obj.__class__ == CovidBullet:
+            if obj.owner != self:
                 obj.deconstruct()
                 self.takedamage(1)
 
@@ -93,7 +98,7 @@ class DawgTalePlayer(Actor):
 
     def chosepowerup(self):
         self.super = True
-        self.shotType = random.choice(['triple', 'cranking', 'piercing', 'huge'])
+        self.shotType = random.choice(['triple', 'cranking', 'piercing'])
         self.superticks = 0
 
 

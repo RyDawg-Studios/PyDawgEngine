@@ -33,6 +33,7 @@ class DisplayManager:
     def configurewindow(self):
 
         self.screen = pygame.display.set_mode((640, 480), pygame.FULLSCREEN)
+        #, pygame.FULLSCREEN
 
         pygame.display.set_icon(pygame.image.load(eval(self.pde.config_manager.config["config"]["icon"])))
         pygame.display.set_caption(self.pde.config_manager.config["config"]["caption"])

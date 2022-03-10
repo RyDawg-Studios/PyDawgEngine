@@ -25,7 +25,7 @@ class Reticle(Actor):
         else:
             self.state = self.man.pde.input_manager.mouse_position
 
-        self.components["Sprite"] = SpriteComponent(owner=self, sprite=r'data\game\assets\reticle.png', layer=3)
+        self.components["Sprite"] = SpriteComponent(owner=self, sprite=r'data\game\assets\reticle.png', layer=5)
 
     def update(self):
 

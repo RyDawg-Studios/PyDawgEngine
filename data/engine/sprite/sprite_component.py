@@ -16,14 +16,15 @@ class Sprite(pygame.sprite.Sprite):
         self.scale = scale
         self.rotation = rotation
 
+        if self.sprite in self.parent.pde.sprite_manager.sprites:
+            self.image = self.parent.pde.sprite_manager.sprites[self.sprite]
+        else:
+            self.image = pygame.image.load(self.sprite)
+            self.parent.pde.sprite_manager.sprites[self.sprite] = self.image
 
-        self.image = pygame.image.load(self.sprite)
         self.image = pygame.transform.scale(self.image, (self.scale[0],self.scale[1]))
         self.image = pygame.transform.rotate(self.image, self.rotation)
  
-
-
-
         if layer in parent.pde.display_manager.surfs:
             parent.pde.display_manager.surfs[self.layer].append(self)
         else:

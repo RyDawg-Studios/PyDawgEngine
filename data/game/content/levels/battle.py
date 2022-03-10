@@ -6,7 +6,7 @@ from data.game.content.objects.foreground_obj import Fg
 from data.game.content.objects.protein import ProteinSpawner
 from data.game.content.player.DawgTalePlayer import DawgTalePlayer
 from data.game.content.objects.wave_manager import WaveManager
-from data.game.content.objects.wave import Wave
+from data.game.content.objects.waves import Wave1
 
 class BattleLevel(Level):
     def __init__(self, man, pde) -> None:
@@ -18,7 +18,7 @@ class BattleLevel(Level):
         self.objectManager.add_object(DawgTalePlayer(man=self.objectManager, pde=pde, position=[310, 400]))
         self.objectManager.add_object(BloodSpawner(man=self.objectManager, pde=pde, position=[640, 0]))
         self.objectManager.add_object(Fg(man=self.objectManager, pde=pde, position=[0,0]))
-        self.objectManager.add_object(WaveManager(man=self.objectManager, pde=pde, wave=Wave))
+        self.objectManager.add_object(WaveManager(man=self.objectManager, pde=pde, wave=Wave1))
         self.objectManager.add_object(ScoreTextActor(man=self.objectManager, pde=pde, position=[35, 15], scale=[60, 20]))
         self.objectManager.add_object(ProteinSpawner(man=self.objectManager, pde=pde))
 

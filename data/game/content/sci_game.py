@@ -26,5 +26,5 @@ class Eukaryosite(Game):
                                                                         name="Main", active=True, pos=pos)
 
     def loadtitlelevel(self):
-        self.pde.level_manager.addlevel(level=TitleLevel(man=self.pde.level_manager, pde=self.pde), 
+        self.pde.level_manager.changelevel(level=TitleLevel(man=self.pde.level_manager, pde=self.pde), 
                                                                         name="Main", active=True)

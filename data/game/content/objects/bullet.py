@@ -21,9 +21,9 @@ class Bullet(Actor):
         super().__init__(man, pde)
 
         if not self.piercing:
-            self.components["Sprite"] = SpriteComponent(owner=self, sprite=r'data\game\assets\bullet.png', layer=5)
+            self.components["Sprite"] = SpriteComponent(owner=self, sprite=r'data\game\assets\bullet.png', layer=1)
         else:
-            self.components["Sprite"] = SpriteComponent(owner=self, sprite=r'data\game\assets\bluebullet.png', layer=5)
+            self.components["Sprite"] = SpriteComponent(owner=self, sprite=r'data\game\assets\bluebullet.png', layer=1)
 
         self.components["Projectile"] = ProjectileComponent(owner=self, rotation=self.rotation, speed=self.speed)
 

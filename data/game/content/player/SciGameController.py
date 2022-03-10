@@ -7,27 +7,29 @@ class SciGameController(PlayerController):
         super().__init__(owner, **kwargs)
         self.max_player_speed = 2
         self.saved_pos = [0,0]
-        self.resetPos = False
+        self.resetPos = True
+        if len(self.inpman.joysticks) > 0:
+            self.resetPos = False
         self.ticks = 0
 
     def manage_input(self):
-        maxSpeed = self.owner.maxSpeed
         self.ticks += 1
+        maxSpeed = self.owner.maxSpeed
         if pygame.K_RIGHT in self.owner.pde.input_manager.key_inputs or pygame.K_d in self.owner.pde.input_manager.key_inputs:
             self.owner.speed[0] = maxSpeed[0]
         elif pygame.K_LEFT in self.owner.pde.input_manager.key_inputs or pygame.K_a in self.owner.pde.input_manager.key_inputs:
             self.owner.speed[0] = -maxSpeed[0]
         else:
-            self.owner.speed[0] = 0
+            if self.resetPos:
+                self.owner.speed[0] = 0
 
         if pygame.K_UP in self.owner.pde.input_manager.key_inputs or pygame.K_w in self.owner.pde.input_manager.key_inputs:
             self.owner.speed[1] = -maxSpeed[1]
-
         elif pygame.K_DOWN in self.owner.pde.input_manager.key_inputs or pygame.K_s in self.owner.pde.input_manager.key_inputs:
             self.owner.speed[1] = maxSpeed[1]
-
         else:
-            self.owner.speed[1] = 0
+            if self.resetPos:
+                self.owner.speed[1] = 0
 
         if self.owner.pde.input_manager.mouse_inputs[0] or pygame.K_SPACE in self.owner.pde.input_manager.key_inputs or self.owner.pde.input_manager.controller_axis_values[5] > 0:
             if self.ticks >= self.owner.shotInfo['fireRate']:
@@ -37,7 +39,7 @@ class SciGameController(PlayerController):
 
     def on_joystick(self, event):
         if event.axis < 2:
-            self.owner.speed[event.axis] = round(event.value * self.owner.maxSpeed[0])
+            self.owner.speed[event.axis] = round(event.value) * self.owner.maxSpeed[0]
 
         elif event.axis == 2 or event.axis == 3:
             self.owner.reticle.speed[event.axis-2] = event.value * 50

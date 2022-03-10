@@ -1,25 +1,30 @@
 from data.engine.actor.actor import Actor
 from data.engine.projectile.projectile_component import ProjectileComponent
 from data.engine.sprite.sprite_component import SpriteComponent
-from data.game.content.objects.bullet import Bullet
-import random
 import math
 
-class SickleCell(Actor):
-    def __init__(self, man, pde, position=[0,0], scale=[32,32], speed=[1,1], rotation=0, checkForCollision=False, checkForOverlap=True, lifetime=150):
+class CovidBullet(Actor):
+    def __init__(self, man, pde, owner, position=[0,0], scale=[16,16], speed=[1,1], rotation=0, checkForCollision=False, checkForOverlap=False, lifetime=150, piercing = False):
+        self.useCenterForPosition = True
         self.position=position
         self.scale=scale
         self.checkForCollision=checkForCollision
         self.checkForOverlap=checkForOverlap
+        self.useCenterForPosition = True
         self.lifetime=lifetime
         self.rotation=rotation
-        self.spriteRotation = random.randint(0, 360)
         self.speed = speed
+        self.piercing = piercing
+        self.owner=owner
+        self.spriteScale = self.scale
 
         super().__init__(man, pde)
 
+        if not self.piercing:
+            self.components["Sprite"] = SpriteComponent(owner=self, sprite=r'data\game\assets\covidshot.png', layer=1)
+        else:
+            self.components["Sprite"] = SpriteComponent(owner=self, sprite=r'data\game\assets\bluebullet.png', layer=1)
 
-        self.components["Sprite"] = SpriteComponent(owner=self, sprite=r'data\game\assets\sci_badblood.png', layer=2)
         self.components["Projectile"] = ProjectileComponent(owner=self, rotation=self.rotation, speed=self.speed)
 
     def move(self):
@@ -31,15 +36,3 @@ class SickleCell(Actor):
         elif self.position[0] > 640 or self.position[1] > 480:
             self.deconstruct()
         return super().update()
-
-    def overlap(self, obj):
-        if obj.__class__ == Bullet:
-            self.die()
-            if obj.owner == self.man.getPlayers():
-                obj.owner.score += 50
-            if not obj.piercing:
-                obj.deconstruct()
-        return super().overlap(obj)
-
-    def die(self):
-        self.deconstruct()

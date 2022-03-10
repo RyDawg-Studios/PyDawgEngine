@@ -15,8 +15,6 @@ class Projectile(Actor):
 
         super().__init__(man, pde)
 
-        self.components["Sprite"] = SpriteComponent(owner=self, sprite=r'data\game\assets\bullet.png', layer=2)
-        self.components["Projectile"] = ProjectileComponent(owner=self, rotation=self.rotation, speed=self.speed)
 
     def move(self):
         pass

@@ -1,6 +1,4 @@
-from re import S
 import pygame
-from data.engine.debug.debugGame import DebugGame
 from data.engine.display.display_manager import DisplayManager
 from data.engine.event.event_manager import EventManager
 from data.engine.input.input_manager import InputManager
@@ -8,6 +6,7 @@ from data.engine.level.level_manager import LevelManager
 from data.engine.mouse.mouse_manager import MouseManager
 from data.engine.player.player_manger import PlayerManager
 from data.engine.cfg.config_manager import ConfigManager
+from data.engine.sprite.sprite_manager import SpriteManager
 from data.game.content.sci_game import Eukaryosite
 
 
@@ -38,6 +37,9 @@ class PyDawgEngine:
         self.config_manager = ConfigManager(pde=self)
         self.config_manager.active = True
 
+        self.sprite_manager = SpriteManager(pde=self)
+        self.sprite_manager.active = True
+
         self.active = False
 
         self.clock = pygame.time.Clock()
@@ -58,14 +60,8 @@ class PyDawgEngine:
 
         self.game.activate()
 
-
-
         while True:
             self.update()
-
-
-
-
 
     def update(self):
         self.config_manager.update()

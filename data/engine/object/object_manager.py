@@ -23,5 +23,11 @@ class ObjectManager:
         for obj in list(self.objects.values()):
             obj.update()
 
+    def getPlayers(self):
+        for obj in list(self.objects.values()):
+            for comp in obj.components:
+                if comp == "PlayerController":
+                    return obj
+
 
 
