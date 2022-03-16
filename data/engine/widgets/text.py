@@ -20,29 +20,16 @@ class Sprite(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(self.image, (self.scale[0],self.scale[1]))
         self.image = pygame.transform.rotate(self.image, self.rotation)
  
-
-
-
-        if layer in parent.pde.display_manager.surfs:
-            parent.pde.display_manager.surfs[layer].append(self)
-        else:
-            parent.pde.display_manager.createsurf(id=layer)
-            parent.pde.display_manager.surfs[layer].append(self)
+        self.rect = self.image.get_rect()
 
     def update(self):
-        self.image = self.font.render(str(self.parent.__getattribute__(self.text)), True, self.color)
-        self.image = pygame.transform.scale(self.image, (self.scale[0],self.scale[1]))
-        self.image = pygame.transform.rotate(self.image, self.rotation)
+        #self.image = self.font.render(str(self.parent.__getattribute__(self.text)), True, self.color)
+        self.rect = self.parent.rect
         super().update()
 
     
     def deconstruct(self):
         self.kill()
-        if self in self.parent.pde.display_manager.surfs[self.layer]:
-            self.parent.pde.display_manager.surfs[self.layer].remove(self)
-        else:
-            #print(f"Warning: Invalid Sprite Removal\nParent: {self.parent}\nSprite: {self}\nLayer: {self.layer}\nSurface: {self.parent.pde.display_manager.surfs[self.layer]}")
-            pass
         del self
 
 

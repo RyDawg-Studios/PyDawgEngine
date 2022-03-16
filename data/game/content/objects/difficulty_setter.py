@@ -74,7 +74,7 @@ class DifficultyTextActor(Actor):
 
 
 class ScoreTextActor(Actor):
-    def __init__(self, man, pde, position, scale):
+    def __init__(self, man, pde, position, scale=[30, 30]):
         self.position = position
         self.scale=scale
         self.useCenterForPosition = True
@@ -82,7 +82,7 @@ class ScoreTextActor(Actor):
         super().__init__(man, pde)
         self.text = self.pde.game.score
 
-        self.components["Text"] = TextComponent(owner=self, text='text', layer=3, font=self.font, color=(255, 255, 255))
+        self.components["Text"] = TextComponent(owner=self, text='text', layer=9, font=self.font, color=(255, 255, 255))
 
     def update(self):
         self.text = f'Score: {self.pde.game.score}'

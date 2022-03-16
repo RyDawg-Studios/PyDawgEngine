@@ -1,51 +1,46 @@
 import pygame
 from pygame.sprite import AbstractGroup
 from data.engine.component.component import Component
-from data.engine.fl.sys_fl import resource_path
-import math
+
 
 class Sprite(pygame.sprite.Sprite):
     def __init__(self, parent, sprite, rotation, scale, layer: AbstractGroup) -> None:
         super().__init__()
 
         self.parent = parent
-        self.layer= layer
+        self.layer = layer
 
         self.sprite = sprite
 
         self.scale = scale
         self.rotation = rotation
 
+
+
+        #Use sprite from cache if already loaded, otherwise load it and add it to cache
         if self.sprite in self.parent.pde.sprite_manager.sprites:
             self.image = self.parent.pde.sprite_manager.sprites[self.sprite]
         else:
             self.image = pygame.image.load(self.sprite)
             self.parent.pde.sprite_manager.sprites[self.sprite] = self.image
 
+
+        #apply approprite sprite transformation
         self.image = pygame.transform.scale(self.image, (self.scale[0],self.scale[1]))
         self.image = pygame.transform.rotate(self.image, self.rotation)
+
+        self.rect = self.image.get_rect()
  
-        if layer in parent.pde.display_manager.surfs:
-            parent.pde.display_manager.surfs[self.layer].append(self)
-        else:
-            parent.pde.display_manager.createsurf(id=layer)
-            parent.pde.display_manager.surfs[self.layer].append(self)
+        #add sprite to sprite layer
+        parent.pde.display_manager.group.add(self)
 
     def update(self):
+        self.rect = self.parent.rect
         super().update()
 
     
     def deconstruct(self):
         self.kill()
-        try:
-            if self in self.parent.pde.display_manager.surfs[self.layer]:
-                self.parent.pde.display_manager.surfs[self.layer].remove(self)
-            else:
-                #print(f"Warning: Invalid Sprite Removal\nParent: {self.parent}\nSprite: {self}\nLayer: {self.layer}\nSurface: {self.parent.pde.display_manager.surfs[self.layer]}")
-                pass
-        except:
-            print(f'Warning: Attempted to access invalid Sprite Layer: {self.layer}')
-            pass
         del self
 
 

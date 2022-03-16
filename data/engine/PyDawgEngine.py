@@ -1,4 +1,5 @@
 import pygame
+from data.engine.debug.debugGame import DebugGame
 from data.engine.display.display_manager import DisplayManager
 from data.engine.event.event_manager import EventManager
 from data.engine.input.input_manager import InputManager
