@@ -12,8 +12,9 @@ class AnimManager(Component):
         self.animstate = ''
         self.animframe = 0
         self.animspeed = 0
+        self.paused = False
 
-    def addAnimation(self, anim, name, speed=0.2, set=False):
+    def addAnimation(self, anim, name, speed=0.2, looping=True, stopFrame=-1, set=False):
         images = []
         for filename in os.listdir(anim):
             f = os.path.join(anim, filename)
@@ -23,7 +24,7 @@ class AnimManager(Component):
                 img = pygame.image.load(f)
                 self.owner.pde.sprite_manager.sprites[f] = img
                 images.append(img)
-        self.anims[str(name)] = [images, speed]
+        self.anims[str(name)] = [images, speed, looping, stopFrame]
         if set:
             self.setAnimState(state=str(name))
 
@@ -33,14 +34,17 @@ class AnimManager(Component):
         self.animspeed = self.anims[self.animstate][1]
 
     def update(self):
-            self.animframe += self.animspeed
-            if self.animframe < len(self.anims[self.animstate])+1:
-                self.sprite.sprite.image = self.anims[self.animstate][0][int(self.animframe)]
-                self.sprite.sprite.image = pygame.transform.scale(self.sprite.sprite.image, (self.sprite.sprite.parent.spriteScale))
-                self.sprite.sprite.image = pygame.transform.rotate(self.sprite.sprite.image, self.sprite.sprite.parent.spriteRotation)
-                self.sprite.sprite.rect = self.sprite.sprite.parent.rect
-            else:
-                self.animframe = 0
+        if not self.paused:
+            if int(self.animframe) != int(self.anims[self.animstate][3]):
+                self.animframe += self.animspeed
+                if self.animframe < len(self.anims[self.animstate])-1:
+                    self.sprite.sprite.image = self.anims[self.animstate][0][int(self.animframe)]
+                    self.sprite.sprite.image = pygame.transform.scale(self.sprite.sprite.image, (self.sprite.sprite.parent.spriteScale))
+                    self.sprite.sprite.image = pygame.transform.rotate(self.sprite.sprite.image, self.sprite.sprite.parent.spriteRotation)
+                    self.sprite.sprite.rect = self.sprite.sprite.parent.rect
+                else:
+                    self.animframe = 0
+            
 
 
     

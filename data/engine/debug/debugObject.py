@@ -19,7 +19,7 @@ class TestActor(Actor):
         super().__init__(man, pde)
         self.components["Sprite"] = SpriteComponent(owner=self, sprite=r'data\assets\sprites\me.png', layer=2)
         self.components["Anim"] = AnimManager(owner=self, layer=2, sprite=self.components["Sprite"])
-        self.components["Anim"].addAnimation(name='test', anim=r'data\assets\anims\test', speed=0.2, set=True)
+        self.components["Anim"].addAnimation(name='test', anim=r'data\assets\anims\test', speed=0.2, set=True, stopFrame=-1)
 
 class TestPlayer(Actor):
     def __init__(self, man, pde, position=[50, 50], scale=[30, 30]):
