@@ -26,6 +26,7 @@ class Covid(Actor):
         self.shotInfo = {'piercing': False, 'fireRate': self.firerate, 'offsets': [0, -30, 30], 'accuracyBand': 10, 'bulletSpeed': 6, 'bulletScale': [20, 20]}
         self.shotType = 'Normal'
         self.player = man.getPlayers()
+        self.damagable = True
 
         super().__init__(man, pde)
 
@@ -57,21 +58,19 @@ class Covid(Actor):
 
     def overlap(self, obj):
         if obj.__class__ == Bullet:
-            if obj.owner != self:
-                if not obj.piercing:
-                    obj.deconstruct()
-                self.hp -= 1
-                if self.hp <= 0:
-                    self.die()
-                    obj.owner.score += 8000
+            if self.damagable:
+                if obj.owner != self:
+                    if not obj.piercing:
+                        obj.deconstruct()
+                    self.hp -= 1
+                    if self.hp <= 0:
+                        self.die()
+                        obj.owner.score += 8000
         return super().overlap(obj)
 
     def die(self):
         for i in range(1, 13):
             self.man.add_object(CovidBullet(man=self.man, pde=self.pde, owner=self, position=[self.rect.center[0], self.rect.center[1]], rotation=objectlookattarget(self, self.player) + i*30, scale=[20, 20], speed=[6, 6] , lifetime=400)) 
-
-
-
 
         self.owner.active = True
         self.deconstruct()

@@ -1,6 +1,7 @@
 import random
 from data.game.content.objects.badblood import SickleCell
 from data.game.content.objects.covid import Covid
+from data.game.content.objects.covidwarning import CovidWarning
 from data.game.content.objects.wave import Wave
 
 
@@ -20,8 +21,18 @@ class Wave1(Wave):
                 self.preset = random.choice(self.presets)
                 self.om.add_object(SickleCell(man=self.om, pde=self.owner.pde, position=list(self.preset[0]), rotation=int(self.preset[1]) + random.randint(-30, 30), speed=[3, 3], lifetime=700))
                 self.ticks = 0
-            return super().update()
+            self.time += 1
+            if self.time == self.timeTarget:
+                self.time = 0
+                if self.active == True:
+                    self.onfinish()
+                self.active = False
+
+    def spawnboss(self):
+        self.boss = self.owner.man.add_object(Covid(man=self.om, pde=self.owner.pde, position=[320,240], rotation=0, owner = self))
+
 
     def onfinish(self):
-        self.boss = self.owner.man.add_object(Covid(man=self.om, pde=self.owner.pde, position=[320,240], rotation=0, owner = self))
+        self.timeTarget = 400
+        self.boss = self.owner.man.add_object(CovidWarning(man=self.om, pde=self.owner.pde, position=[320,240], rotation=0, owner = self))
         return super().onfinish()
