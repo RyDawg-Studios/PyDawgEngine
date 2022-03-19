@@ -46,9 +46,6 @@ class Actor(Object):
 
         if not hasattr(self, 'direction'):
             self.direction = [0,0]
-
-        if not hasattr(self, 'velocity'):
-            pass
         
         if not hasattr(self, 'spriteScale'):
             self.spriteScale = self.scale
@@ -59,13 +56,9 @@ class Actor(Object):
         if not hasattr(self, 'useSriteRectForCollision'):
             self.useSpriteRectForCollision = False
 
-        if not hasattr(self, 'useCenterForPosition'):
-            self.useCenterForPosition = False
-
         if not hasattr(self, 'rect'):
             self.rect = pygame.rect.Rect(self.position[0], self.position[1], self.scale[0], self.scale[1])
-            if self.useCenterForPosition:
-                self.rect.center = [self.position[0], self.position[1]]
+            self.rect.center = [self.position[0], self.position[1]]
 
         if not hasattr(self, 'collideRect'):
             self.collideRect = self.rect
@@ -84,7 +77,6 @@ class Actor(Object):
 
 
     def checkoverlap(self):
-
         for level in self.pde.level_manager.levels.values():
             for object in list(level.objectManager.objects.values()):
                 if hasattr(object, 'checkForOverlap'):
@@ -121,7 +113,7 @@ class Actor(Object):
 
 
     def overlap(self, obj):
-        pass
+        print("ew")
 
     def whileoverlap(self, obj):
         pass
@@ -133,16 +125,9 @@ class Actor(Object):
             self.rect.x += self.speed[0]
             self.rect.y += self.speed[1]
 
-        self.position[0] = self.rect.x
-        self.position[1] = self.rect.y
-
-        if self.useCenterForPosition:
-            self.position[0] = self.rect.center[0]
-            self.position[1] = self.rect.center[1]
+        self.position[0] = self.rect.center[0]
+        self.position[1] = self.rect.center[1]
         
-
-
-
         self.scale[0] = self.rect.size[0]
         self.scale[1] = self.rect.size[1]
 

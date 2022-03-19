@@ -9,6 +9,6 @@ class DebugLevel(Level):
         self.changebackground(r'data\assets\sprites\bg.png')
 
 
-        self.objectManager.add_object(TestPlayer(man=self.objectManager, pde=pde))
+        self.objectManager.add_object(TestPlayer(man=self.objectManager, pde=pde,position=[90, 50]))
         self.objectManager.add_object(TestActor(man=self.objectManager, pde=pde))
 

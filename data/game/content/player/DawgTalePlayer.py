@@ -24,7 +24,7 @@ class DawgTalePlayer(Actor):
         self.superticks = 0
         self.accuracyRange = 5
         self.fireRate = 12
-        self.score = pde.game.score
+        self.score = 0
         self.roundScore = 0
         self.canShoot = True
         self.shotType = 'single'
