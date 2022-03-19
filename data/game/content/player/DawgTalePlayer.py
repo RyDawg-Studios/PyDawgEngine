@@ -24,7 +24,8 @@ class DawgTalePlayer(Actor):
         self.superticks = 0
         self.accuracyRange = 5
         self.fireRate = 12
-        self.score = 0
+        self.score = pde.game.score
+        self.roundScore = 0
         self.canShoot = True
         self.shotType = 'single'
         self.super = False
@@ -104,7 +105,7 @@ class DawgTalePlayer(Actor):
 
     def checkforsuper(self):
         if self.shotType == 'triple':
-            self.shotInfo['offsets'] = [0, 30, -30]
+            self.shotInfo['offsets'] = [0, 20, -20]
 
         elif self.shotType == 'cranking':
             self.shotInfo['offsets'] = [0, 90, -90, 180]

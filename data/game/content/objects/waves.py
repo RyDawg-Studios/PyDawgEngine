@@ -33,6 +33,6 @@ class Wave1(Wave):
 
 
     def onfinish(self):
-        self.timeTarget = 400
+        self.timeTarget = 2000
         self.boss = self.owner.man.add_object(CovidWarning(man=self.om, pde=self.owner.pde, position=[320,240], rotation=0, owner = self))
         return super().onfinish()

@@ -1,3 +1,4 @@
+from turtle import speed
 from data.engine.actor.actor import Actor
 from data.engine.projectile.projectile_component import ProjectileComponent
 from data.engine.sprite.sprite_component import SpriteComponent
@@ -5,6 +6,7 @@ from data.game.content.objects.bullet import Bullet
 from data.engine.fl.world_fl import objectlookattarget
 import random
 from data.game.content.objects.covidbullet import CovidBullet
+from data.engine.anim.anim_manager import AnimManager
 
 from data.game.content.objects.projectile import Projectile
 
@@ -15,19 +17,30 @@ class CovidWarning(Actor):
         self.checkForCollision=checkForCollision
         self.checkForOverlap=checkForOverlap
         self.useCenterForPosition = True
-        self.lifetime=300
+        self.lifetime=-1
+        self.ticktime = 300
+        self.ticks = 0
         self.rotation=rotation
+        self.spawnboss = False
         self.spriteRotation = 0
         self.owner = owner
 
         super().__init__(man, pde)
 
         self.components["Sprite"] = SpriteComponent(owner=self, sprite=r'data\game\assets\covidwarning.png', layer=2)
+        self.components["BlinkAnim"] = AnimManager(owner=self, sprite=self.components["Sprite"])
+        self.components["BlinkAnim"].addAnimation(name='Blinking', anim=r'data\game\assets\blink', speed=0.1, looping=True, set=True)
 
     def move(self):
         pass
 
     def update(self):
+        self.ticks += 1
+        if self.ticks >= self.ticktime:
+            if self.spawnboss == False:
+                self.owner.spawnboss()
+                self.deconstruct()
+                self.spawnboss = True
         return super().update()
 
     def die(self):
@@ -38,7 +51,6 @@ class CovidWarning(Actor):
         self.deconstruct()
 
     def deconstruct(self):
-        self.owner.spawnboss()
         return super().deconstruct()
 
 

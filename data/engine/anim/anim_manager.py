@@ -29,7 +29,6 @@ class AnimManager(Component):
             self.setAnimState(state=str(name))
 
     def setAnimState(self, state):
-        self.animframe = 0
         self.animstate = state
         self.animspeed = self.anims[self.animstate][1]
 
@@ -37,13 +36,13 @@ class AnimManager(Component):
         if not self.paused:
             if int(self.animframe) != int(self.anims[self.animstate][3]):
                 self.animframe += self.animspeed
-                if self.animframe < len(self.anims[self.animstate])-1:
+                if self.animframe >= len(self.anims[self.animstate][0]):
+                    self.animframe = 0
+                else:
                     self.sprite.sprite.image = self.anims[self.animstate][0][int(self.animframe)]
                     self.sprite.sprite.image = pygame.transform.scale(self.sprite.sprite.image, (self.sprite.sprite.parent.spriteScale))
                     self.sprite.sprite.image = pygame.transform.rotate(self.sprite.sprite.image, self.sprite.sprite.parent.spriteRotation)
                     self.sprite.sprite.rect = self.sprite.sprite.parent.rect
-                else:
-                    self.animframe = 0
             
 
 

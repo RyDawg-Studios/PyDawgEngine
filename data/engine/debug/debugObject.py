@@ -1,6 +1,7 @@
 import pygame
 from data.engine.anim.anim_manager import AnimManager
 from data.engine.anim.anim_sprite import AnimSprite
+from data.engine.debug.debugController import DebugController
 from data.engine.object.object import Object
 from data.engine.actor.actor import Actor
 from data.engine.sprite.sprite_component import SpriteComponent
@@ -16,10 +17,40 @@ class TestActor(Actor):
         self.checkForCollision = True
         self.position = position
         self.scale = scale
+        self.direction = 1
         super().__init__(man, pde)
         self.components["Sprite"] = SpriteComponent(owner=self, sprite=r'data\assets\sprites\me.png', layer=2)
         self.components["Anim"] = AnimManager(owner=self, layer=2, sprite=self.components["Sprite"])
-        self.components["Anim"].addAnimation(name='test', anim=r'data\assets\anims\test', speed=0.2, set=True, stopFrame=-1)
+        self.components["Anim"].addAnimation(name='runright', anim=r'data\assets\anims\runright', speed=0.2, set=True, stopFrame=-1)
+        self.components["Anim"].addAnimation(name='runleft', anim=r'data\assets\anims\runleft', speed=0.2, set=True, stopFrame=-1)
+
+        self.components["Anim"].addAnimation(name='idleright', anim=r'data\assets\anims\idleright', speed=0.2, set=False, stopFrame=-1)
+        self.components["Anim"].addAnimation(name='idleleft', anim=r'data\assets\anims\idleleft', speed=0.2, set=False, stopFrame=-1)
+
+
+        self.components["PlayerController"] = DebugController(owner=self)
+
+    def update(self):
+        if self.speed[0] > 0:
+            self.components["Anim"].setAnimState(state='runright')
+
+        elif self.speed[0] < 0:
+            self.components["Anim"].setAnimState(state='runleft')
+
+        else:
+            if self.direction == 1:
+                self.components["Anim"].setAnimState(state='idleright')
+            if self.direction == -1:
+                self.components["Anim"].setAnimState(state='idleleft')
+
+        if self.speed[0] < 0:
+            self.spriteScale[0] *= -1
+
+        elif self.speed[0] > 0:
+            self.spriteScale[0] = abs(self.spriteScale[0])
+        return super().update()
+
+
 
 class TestPlayer(Actor):
     def __init__(self, man, pde, position=[50, 50], scale=[30, 30]):

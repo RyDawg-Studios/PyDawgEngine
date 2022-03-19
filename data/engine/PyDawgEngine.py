@@ -15,7 +15,7 @@ class PyDawgEngine:
 
     def __init__(self) -> None:
 
-        self.game = Leukosite(pde=self)
+        self.game = DebugGame(pde=self)
 
         self.display_manager = DisplayManager(pde=self)
         self.display_manager.active = True

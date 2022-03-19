@@ -11,7 +11,7 @@ class Actor(Object):
         self.canMove = True
         self.overlapInfo = {"Overlapping" : False, "Objects" : []}
         self.collideInfo = {"Type": "None"}
-        self.collisionThreshHold = 4
+        self.collisionThreshHold = 2
         self.ticks = 0
 
         if not hasattr(self, 'position'):

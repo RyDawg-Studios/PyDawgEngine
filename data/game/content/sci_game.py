@@ -9,7 +9,7 @@ class Eukaryosite(Game):
     def __init__(self, pde):
         super().__init__(pde)
         self.difficulty = 10
-        self.score = "No Score"
+        self.score = 0
 
     def activate(self):
         self.pde.level_manager.changelevel(level=TitleLevel(man=self.pde.level_manager, pde=self.pde), 
