@@ -37,7 +37,7 @@ class SickleCell(Actor):
             self.die()
             if obj.owner == self.man.getPlayers():
                 obj.owner.score += 50
-                obj.owner.roundScore += 50
+                obj.owner.roundScore += 50 
             if not obj.piercing:
                 obj.deconstruct()
         return super().overlap(obj)

@@ -62,10 +62,14 @@ class Actor(Object):
         if not hasattr(self, 'useCenterForPosition'):
             self.useCenterForPosition = False
 
-        self.rect = pygame.rect.Rect(self.position[0], self.position[1], self.scale[0], self.scale[1])
+        if not hasattr(self, 'rect'):
+            self.rect = pygame.rect.Rect(self.position[0], self.position[1], self.scale[0], self.scale[1])
+            if self.useCenterForPosition:
+                self.rect.center = [self.position[0], self.position[1]]
 
-        if self.useCenterForPosition:
-            self.rect.center = [self.position[0], self.position[1]]
+        if not hasattr(self, 'collideRect'):
+            self.collideRect = self.rect
+
 
         super().__init__(man, pde, self.components)
 
@@ -85,14 +89,14 @@ class Actor(Object):
             for object in list(level.objectManager.objects.values()):
                 if hasattr(object, 'checkForOverlap'):
                     if self.checkForOverlap == True:
-                        if self.rect.colliderect(object.rect) and object != self:
+                        if self.collideRect.colliderect(object.collideRect) and object != self:
                             self.whileoverlap(object)
                             if object not in self.overlapInfo["Objects"]:
                                 self.overlapInfo["Objects"].append(object)
                                 self.overlap(object)
 
                     if object.checkForCollision and self.checkForCollision and hasattr(object, 'checkForCollision'):
-                        if self.rect.colliderect(object.rect) and object != self:
+                        if self.collideRect.colliderect(object.collideRect) and object != self:
                             if abs(object.rect.bottom - self.rect.top) < self.collisionThreshHold:
                                 self.rect.top = object.rect.bottom
                             if abs(object.rect.top - self.rect.bottom) < self.collisionThreshHold:

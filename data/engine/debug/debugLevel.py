@@ -1,4 +1,4 @@
-from data.engine.debug.debugObject import TestActor
+from data.engine.debug.debugObject import TestActor, TestPlayer
 from data.engine.level.level import Level
 
 
@@ -9,4 +9,6 @@ class DebugLevel(Level):
         self.changebackground(r'data\assets\sprites\bg.png')
 
 
+        self.objectManager.add_object(TestPlayer(man=self.objectManager, pde=pde))
         self.objectManager.add_object(TestActor(man=self.objectManager, pde=pde))
+
