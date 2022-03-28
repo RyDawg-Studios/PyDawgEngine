@@ -6,7 +6,7 @@ import random
 class StressLevel(Level):
     def __init__(self, man, pde) -> None:
         super().__init__(man, pde)
-        self.changebackground(r'data\assets\debug\sprites\xp.png')
+        self.changebackground(r'assets\debug\sprites\xp.png')
 
         self.objectManager.objects["Player"] = TestPlayer(man=self.objectManager, pde=pde)
         for obj in range(0, 50):
