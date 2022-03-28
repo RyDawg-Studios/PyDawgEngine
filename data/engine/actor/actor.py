@@ -1,3 +1,4 @@
+from shutil import move
 import pygame
 from data.engine.object.object import Object
 from data.engine.widgets.button import Button
@@ -116,6 +117,7 @@ class Actor(Object):
 
 
     def move(self, movement):
+        self.speed = movement
         if self.canMove:
             self.rect.x += movement[0]
             for object in self.getoverlaps():

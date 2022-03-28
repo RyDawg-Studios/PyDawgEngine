@@ -40,8 +40,6 @@ class TestPlayer(Actor):
     
         super().__init__(man, pde)
         self.components["Sprite"] = SpriteComponent(owner=self, sprite=r'data\assets\sprites\me.png', layer=2)
-        self.components["CollideBox"] = SpriteComponent(owner=self, sprite=r'data\assets\sprites\mariohitbox.png', layer=2)
-
 
         self.components["Anim"] = AnimManager(owner=self, layer=2, sprite=self.components["Sprite"])
 
