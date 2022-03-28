@@ -16,20 +16,18 @@ class SciGameController(PlayerController):
         self.ticks += 1
         maxSpeed = self.owner.maxSpeed
         if pygame.K_RIGHT in self.owner.pde.input_manager.key_inputs or pygame.K_d in self.owner.pde.input_manager.key_inputs:
-            self.owner.speed[0] = maxSpeed[0]
+            self.owner.movement[0] = 2
         elif pygame.K_LEFT in self.owner.pde.input_manager.key_inputs or pygame.K_a in self.owner.pde.input_manager.key_inputs:
-            self.owner.speed[0] = -maxSpeed[0]
+            self.owner.movement[0] = -2
         else:
-            if self.resetPos:
-                self.owner.speed[0] = 0
-
+            self.owner.movement[0] = 0
+        
         if pygame.K_UP in self.owner.pde.input_manager.key_inputs or pygame.K_w in self.owner.pde.input_manager.key_inputs:
-            self.owner.speed[1] = -maxSpeed[1]
+            self.owner.movement[1] = -2
         elif pygame.K_DOWN in self.owner.pde.input_manager.key_inputs or pygame.K_s in self.owner.pde.input_manager.key_inputs:
-            self.owner.speed[1] = maxSpeed[1]
+            self.owner.movement[1] = 2
         else:
-            if self.resetPos:
-                self.owner.speed[1] = 0
+            self.owner.movement[1] = 0
 
         if self.owner.pde.input_manager.mouse_inputs[0] or pygame.K_SPACE in self.owner.pde.input_manager.key_inputs or self.owner.pde.input_manager.controller_axis_values[5] > 0:
             if self.ticks >= self.owner.shotInfo['fireRate']:
@@ -59,6 +57,8 @@ class SciGameController(PlayerController):
             for r in range(0, 360):
                 if r % 2:
                     self.owner.shootatangle(r)
+        if input == pygame.K_p:
+            self.owner.printDebugInfo()
 
         if input == 6:
             self.owner.pde.game.loadtitlelevel()

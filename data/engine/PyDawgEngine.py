@@ -15,7 +15,7 @@ class PyDawgEngine:
 
     def __init__(self) -> None:
 
-        self.game = DebugGame(pde=self)
+        self.game = Leukosite(pde=self)
 
         self.display_manager = DisplayManager(pde=self)
         self.display_manager.active = True
@@ -77,7 +77,7 @@ class PyDawgEngine:
         self.dt = self.clock.tick(60) * 0.001 * self.targetFPS
         self.fps = round(self.clock.get_fps())
 
-        #pygame.display.set_caption(str(self.fps))
+        pygame.display.set_caption(str(self.fps))
 
 
         

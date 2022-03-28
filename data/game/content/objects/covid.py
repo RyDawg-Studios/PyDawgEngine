@@ -32,7 +32,7 @@ class Covid(Actor):
 
         self.components["Sprite"] = SpriteComponent(owner=self, sprite=r'data\game\assets\covid.png', layer=2)
 
-    def move(self):
+    def move(self, movement):
         pass
 
     def update(self):

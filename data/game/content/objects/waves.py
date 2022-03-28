@@ -15,6 +15,7 @@ class Wave1(Wave):
         self.timeTarget = 2000
 
     def update(self):
+        self.spawnvalue = 21 - self.owner.pde.game.difficulty
         if self.active:
             self.ticks += 1
             if self.ticks == self.spawnvalue and self.owner.pde.game.difficulty != 0:

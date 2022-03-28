@@ -22,8 +22,8 @@ class Protein(Actor):
 
         self.components["Sprite"] = SpriteComponent(owner=self, sprite=r'data\game\assets\protein.png', layer=5)
         self.components["Projectile"] = ProjectileComponent(owner=self, rotation=self.rotation, speed=self.speed)
-
-    def move(self):
+        
+    def move(self, movement):
         pass
 
     def update(self):

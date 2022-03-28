@@ -31,7 +31,7 @@ class CovidWarning(Actor):
         self.components["BlinkAnim"] = AnimManager(owner=self, sprite=self.components["Sprite"])
         self.components["BlinkAnim"].addAnimation(name='Blinking', anim=r'data\game\assets\blink', speed=0.1, looping=True, set=True)
 
-    def move(self):
+    def move(self, movement):
         pass
 
     def update(self):

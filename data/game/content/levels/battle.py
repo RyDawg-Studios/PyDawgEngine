@@ -24,8 +24,8 @@ class BattleLevel(Level):
 
 
 
-        self.objectManager.add_object(Collider(man=self.objectManager, pde=pde, position=[0,0], scale=[640, 40])) #Top
-        self.objectManager.add_object(Collider(man=self.objectManager, pde=pde, position=[0,460], scale=[640, 40])) #Bottom
+        self.objectManager.add_object(Collider(man=self.objectManager, pde=pde, position=[0,-50], scale=[640, 40])) #Top
+        self.objectManager.add_object(Collider(man=self.objectManager, pde=pde, position=[0,490], scale=[640, 40])) #Bottom
         self.objectManager.add_object(Collider(man=self.objectManager, pde=pde, position=[-20,0], scale=[10, 480])) #Left
         self.objectManager.add_object(Collider(man=self.objectManager, pde=pde, position=[660,0], scale=[10, 480])) #Right
 

@@ -1,18 +1,16 @@
-import imp
-
-
-import math
 import pygame
 from data.engine.object.object import Object
+from data.engine.widgets.button import Button
 
 
 class Actor(Object):
     def __init__(self, man, pde):
         self.canMove = True
-        self.overlapInfo = {"Overlapping" : False, "Objects" : []}
-        self.collideInfo = {"Type": "None"}
+        self.overlapInfo = {"Overlapping" : False, "Objects" : [], "Count": 0}
+        self.collideInfo = {"Top": False, "Bottom": False, "Left": False, "Right": False, "Objects": []}
         self.collisionThreshHold = 2
         self.ticks = 0
+        self.movement=[0, 0]
 
         if not hasattr(self, 'position'):
             self.position = [0, 0]
@@ -73,52 +71,42 @@ class Actor(Object):
 
         super().__init__(man, pde, self.components)
 
+        self.components["DebugButton"] = Button(owner=self, bind=self.printDebugInfo)
+
 
 
     def update(self):
+        self.getoverlaps()
         self.ticks += 1    
-        self.checkoverlap()
-        self.checklifetime()
-        self.move()   
+        self.move(movement=self.movement)
+        self.checklifetime() 
+
         super().update()
 
 
-    def checkoverlap(self):
 
-        for level in self.pde.level_manager.levels.values():
-            for object in list(level.objectManager.objects.values()):
-                if hasattr(object, 'checkForOverlap'):
-                    if self.checkForOverlap == True:
-                        if self.collideRect.colliderect(object.collideRect) and object != self:
-                            self.whileoverlap(object)
-                            if object not in self.overlapInfo["Objects"]:
-                                self.overlapInfo["Objects"].append(object)
-                                self.overlap(object)
+    def getoverlaps(self):
+        hits = []
+        if self.checkForOverlap:
+            for level in self.pde.level_manager.levels.values():
+                for object in list(level.objectManager.objects.values()):
+                    if hasattr(object, 'checkForOverlap'):
+                        if self.checkForOverlap == True:
+                            if self.collideRect.colliderect(object.collideRect) and object != self:
+                                hits.append(object)
+                                object.whileoverlap(self)
+                                self.whileoverlap(object)
+                                if object not in self.overlapInfo["Objects"]:
+                                    self.overlapInfo["Objects"].append(object)
+                                    object.overlap(self)
+                                    self.overlap(object)
+                            else:
+                                if object in self.overlapInfo["Objects"]:
+                                    self.overlapInfo["Objects"].remove(object)
+        return hits
 
-                    if object.checkForCollision and self.checkForCollision and hasattr(object, 'checkForCollision'):
-                        if self.collideRect.colliderect(object.collideRect) and object != self:
-                            if abs(object.rect.bottom - self.rect.top) < self.collisionThreshHold:
-                                self.rect.top = object.rect.bottom
-                            if abs(object.rect.top - self.rect.bottom) < self.collisionThreshHold:
-                                self.rect.bottom = object.rect.top
-                            if abs(object.rect.left - self.rect.right) < self.collisionThreshHold:
-                                self.rect.right = object.rect.left
-                            if abs(object.rect.right - self.rect.left) < self.collisionThreshHold:
-                                self.rect.left = object.rect.right
-
-                    if not self.rect.colliderect(object.rect) and object in self.overlapInfo['Objects']:
-                        self.overlapInfo["Objects"].remove(object)
-
-            for object in self.overlapInfo["Objects"]:
-                if object not in level.objectManager.objects.values():
-                    self.overlapInfo["Objects"].remove(object)
-                    pass
-
-        if len(self.overlapInfo["Objects"]) > 0:
-            self.overlapInfo["Overlapping"] = True
-        else:
-            self.overlapInfo["Overlapping"] = False
-
+    def checkoverlaps(self):
+        pass
 
     def overlap(self, obj):
         pass
@@ -127,26 +115,59 @@ class Actor(Object):
         pass
 
 
-    def move(self):
+    def move(self, movement):
         if self.canMove:
+            self.rect.x += movement[0]
+            for object in self.getoverlaps():
+                if hasattr(object, 'checkForCollision') and object.checkForCollision and self.checkForCollision:
+                    if movement[0] > 0:
+                        self.rect.right = object.rect.left
+                        self.collideInfo["Right"] = True
+                    else:
+                        self.collideInfo["Right"] = False      
+                    if movement[0] < 0:
+                        self.rect.left = object.rect.right
+                        self.collideInfo["Left"] = True
+                    else:
+                        self.collideInfo["Left"] = False  
 
-            self.rect.x += self.speed[0]
-            self.rect.y += self.speed[1]
+                    if object not in self.collideInfo["Objects"]:
+                        self.collideInfo["Objects"].append(object)
+                     
 
-        self.position[0] = self.rect.x
-        self.position[1] = self.rect.y
+            self.rect.y += movement[1]
+            for object in self.getoverlaps():
+                if hasattr(object, 'checkForCollision') and object.checkForCollision and self.checkForCollision:
+                    if movement[1] > 0:
+                        self.rect.bottom = object.rect.top
+                        self.collideInfo["Bottom"] = True
+                    else:
+                        self.collideInfo["Bottom"] = False   
+                    if movement[1] < 0:
+                        self.rect.top = object.rect.bottom
+                        self.collideInfo["Top"] = True
+                    else:
+                        self.collideInfo["Top"] = False  
+            
+                    if object not in self.collideInfo["Objects"]:
+                        self.collideInfo["Objects"].append(object) 
 
-        if self.useCenterForPosition:
-            self.position[0] = self.rect.center[0]
-            self.position[1] = self.rect.center[1]
-        
-
-
-
+        self.position[0] = self.rect.center[0]
+        self.position[1] = self.rect.center[1]
         self.scale[0] = self.rect.size[0]
         self.scale[1] = self.rect.size[1]
+
+        if self.movement[0] < 0:
+            self.direction = -1
+
+        elif self.movement[0] > 0:
+            self.direction = 1
 
 
     def checklifetime(self):
         if self.ticks >= self.lifetime and self.lifetime != -1:
             self.deconstruct()
+
+
+    def printDebugInfo(self):
+        print(f"Name: {str(self)}\n   Position: {self.position}\n   Scale: {self.scale}\n   Rotation: {self.rotation}\n   Movement: {self.movement}\n   Overlap Info: {self.overlapInfo}\n   Collide Info: {self.collideInfo}\n   Components: {self.components.keys()}")

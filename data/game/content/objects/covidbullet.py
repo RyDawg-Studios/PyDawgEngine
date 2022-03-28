@@ -27,7 +27,7 @@ class CovidBullet(Actor):
 
         self.components["Projectile"] = ProjectileComponent(owner=self, rotation=self.rotation, speed=self.speed)
 
-    def move(self):
+    def move(self, movement):
         pass
 
     def update(self):

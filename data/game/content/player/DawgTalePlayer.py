@@ -16,6 +16,7 @@ class DawgTalePlayer(Actor):
         self.rotation=rotation
         self.useCenterForPosition = True
         self.checkForCollision = True
+        self.checkForOverlap = True
         self.maxHealth = 1
         self.health = self.maxHealth
         self.dead = False
@@ -24,7 +25,7 @@ class DawgTalePlayer(Actor):
         self.superticks = 0
         self.accuracyRange = 5
         self.fireRate = 12
-        self.score = pde.game.score
+        self.score = 0
         self.roundScore = 0
         self.canShoot = True
         self.shotType = 'single'
@@ -51,7 +52,6 @@ class DawgTalePlayer(Actor):
                 self.takedamage(1)
 
     def update(self):
-        super().update()
         self.pde.game.score = self.score
         self.ticks += 1
         self.superticks += 1
@@ -74,17 +74,12 @@ class DawgTalePlayer(Actor):
                 self.super = False
                 self.shotType = 'single'
                 self.superticks = 0
-
-                
-        
-
+        super().update()
 
     def takedamage(self, dmg):
             self.health -= dmg
             if self.health <=0:
                 self.dead = True
-
-
 
     def shoot(self):
         if self.canShoot:

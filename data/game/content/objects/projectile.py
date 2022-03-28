@@ -4,7 +4,7 @@ from data.engine.sprite.sprite_component import SpriteComponent
 import math
 
 class Projectile(Actor):
-    def __init__(self, man, pde, position=[0,0], scale=[16,16], speed=[1,1], rotation=0, checkForCollision=False, checkForOverlap=False, lifetime=150):
+    def __init__(self, man, pde, position=[0,0], scale=[16,16], speed=[1,1], rotation=0, checkForCollision=False, checkForOverlap=True, lifetime=150):
         self.position=position
         self.scale=scale
         self.checkForCollision=checkForCollision
@@ -16,8 +16,6 @@ class Projectile(Actor):
         super().__init__(man, pde)
 
 
-    def move(self):
-        pass
 
     def update(self):
         if self.position[0] < -80 or self.position[1] < -80:

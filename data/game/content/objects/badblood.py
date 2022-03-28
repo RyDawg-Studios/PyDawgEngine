@@ -22,7 +22,8 @@ class SickleCell(Actor):
         self.components["Sprite"] = SpriteComponent(owner=self, sprite=r'data\game\assets\sci_badblood.png', layer=2)
         self.components["Projectile"] = ProjectileComponent(owner=self, rotation=self.rotation, speed=self.speed)
 
-    def move(self):
+
+    def move(self, movement):
         pass
 
     def update(self):

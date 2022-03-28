@@ -76,6 +76,7 @@ class DifficultyTextActor(Actor):
 class ScoreTextActor(Actor):
     def __init__(self, man, pde, position, scale):
         self.position = position
+        self.checkForCollision = False
         self.scale=scale
         self.useCenterForPosition = True
         self.spriteScale = [60, 20]

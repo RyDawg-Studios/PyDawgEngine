@@ -5,6 +5,6 @@
         "dimensions": "(640, 480)",
         "icon": "r'data\\game\\assets\\sci_bloodcell.png'",
         "fullscreen": "False",
-        "hideMouseCurson": "False"
+        "hideMouseCurson": "True"
     }
 }

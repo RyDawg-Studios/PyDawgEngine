@@ -23,7 +23,7 @@ class BloodSpawner(Actor):
         self.rotrate = 0
         self.rotoffset = 0
         self.projspeed = random.randint(3,6)
-        self.ticktime = 8
+        self.ticktime = 0
         self.projlifetime = 700
 
 
