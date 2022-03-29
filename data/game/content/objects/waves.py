@@ -33,17 +33,17 @@ class Wave1(Wave):
 
     def spawnboss(self):
         if self.owner.pde.game.bossesKilled > 2:
-            self.boss = self.owner.man.add_object(Covid(man=self.om, pde=self.owner.pde, position=self.warning.position, rotation=0, owner = self))
-        else:
             self.boss = self.owner.man.add_object(CancerManager(man=self.om, pde=self.owner.pde, position=self.warning.position, owner = self))
+        else:
+            self.boss = self.owner.man.add_object(Covid(man=self.om, pde=self.owner.pde, position=self.warning.position, rotation=0, owner = self))
 
 
 
     def onfinish(self):
         self.timeTarget = 2000
         if self.owner.pde.game.bossesKilled > 2:
-            self.warning = self.owner.man.add_object(CovidWarning(man=self.om, pde=self.owner.pde, position=[320,240], rotation=0, owner = self))
-        else:
             self.warning = self.owner.man.add_object(CancerWarning(man=self.om, pde=self.owner.pde, position=[100, 240], rotation=0, owner = self))
+        else:
+            self.warning = self.owner.man.add_object(CovidWarning(man=self.om, pde=self.owner.pde, position=[320,240], rotation=0, owner = self))
 
         return super().onfinish()

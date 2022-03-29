@@ -20,7 +20,7 @@ class BattleLevel(Level):
         self.objectManager.add_object(Fg(man=self.objectManager, pde=pde, position=[0,0]))
         self.objectManager.add_object(WaveManager(man=self.objectManager, pde=pde, wave=Wave1))
         self.objectManager.add_object(ScoreTextActor(man=self.objectManager, pde=pde, position=[35, 15], scale=[60, 20]))
-        self.objectManager.add_object(ProteinSpawner(man=self.objectManager, pde=pde))
+        #self.objectManager.add_object(ProteinSpawner(man=self.objectManager, pde=pde))
 
 
 

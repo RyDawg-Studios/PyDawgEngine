@@ -42,6 +42,8 @@ class DawgTalePlayer(Actor):
 
         self.reticle = self.man.add_object(Reticle(man=self.man, pde=pde, player=self))
 
+        self.pde.game.bossesKilled = 0
+
     def overlap(self, obj):
         if obj.__class__ == SickleCell:
             if not self.dead:
