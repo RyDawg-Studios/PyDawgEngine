@@ -15,7 +15,7 @@ class Reticle(Actor):
         self.checkForOverlap = False
         self.checkForCollision = False
         self.useCenterForPosition = True
-        self.state = 'Mouse'
+        self.state = [0, 0]
 
         super().__init__(man, pde)
 

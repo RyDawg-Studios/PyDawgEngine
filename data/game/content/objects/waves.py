@@ -1,5 +1,7 @@
 import random
 from data.game.content.objects.badblood import SickleCell
+from data.game.content.objects.cancermanager import CancerManager
+from data.game.content.objects.cancerwarning import CancerWarning
 from data.game.content.objects.covid import Covid
 from data.game.content.objects.covidwarning import CovidWarning
 from data.game.content.objects.wave import Wave
@@ -30,10 +32,18 @@ class Wave1(Wave):
                 self.active = False
 
     def spawnboss(self):
-        self.boss = self.owner.man.add_object(Covid(man=self.om, pde=self.owner.pde, position=[320,240], rotation=0, owner = self))
+        if self.owner.pde.game.bossesKilled > 2:
+            self.boss = self.owner.man.add_object(Covid(man=self.om, pde=self.owner.pde, position=self.warning.position, rotation=0, owner = self))
+        else:
+            self.boss = self.owner.man.add_object(CancerManager(man=self.om, pde=self.owner.pde, position=self.warning.position, owner = self))
+
 
 
     def onfinish(self):
         self.timeTarget = 2000
-        self.boss = self.owner.man.add_object(CovidWarning(man=self.om, pde=self.owner.pde, position=[320,240], rotation=0, owner = self))
+        if self.owner.pde.game.bossesKilled > 2:
+            self.warning = self.owner.man.add_object(CovidWarning(man=self.om, pde=self.owner.pde, position=[320,240], rotation=0, owner = self))
+        else:
+            self.warning = self.owner.man.add_object(CancerWarning(man=self.om, pde=self.owner.pde, position=[100, 240], rotation=0, owner = self))
+
         return super().onfinish()

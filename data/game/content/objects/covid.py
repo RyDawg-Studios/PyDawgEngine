@@ -73,6 +73,7 @@ class Covid(Actor):
             self.man.add_object(CovidBullet(man=self.man, pde=self.pde, owner=self, position=[self.rect.center[0], self.rect.center[1]], rotation=objectlookattarget(self, self.player) + i*30, scale=[20, 20], speed=[6, 6] , lifetime=400)) 
 
         self.owner.active = True
+        self.owner.owner.pde.game.bossesKilled += 1
         self.deconstruct()
 
     def shoot(self):

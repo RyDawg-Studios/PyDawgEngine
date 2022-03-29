@@ -72,7 +72,8 @@ class Actor(Object):
 
         super().__init__(man, pde, self.components)
 
-        self.components["DebugButton"] = Button(owner=self, bind=self.printDebugInfo)
+        if eval(self.pde.config_manager.config["config"]["debugMode"]):
+            self.components["DebugButton"] = Button(owner=self, bind=self.printDebugInfo)
 
 
 
@@ -114,7 +115,6 @@ class Actor(Object):
 
     def whileoverlap(self, obj):
         pass
-
 
     def move(self, movement):
         self.speed = movement

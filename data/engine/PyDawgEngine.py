@@ -55,6 +55,11 @@ class PyDawgEngine:
         for man in [self.config_manager, self.input_manager, self.display_manager, self.event_manager, self.mouse_manager, self.level_manager, self.player_manager]:
             if man.active == False:
                 raise Exception(str(man) + " Was not active on engine start. Did you properly initialize it?")
+            else: man.active == True
+
+        for man in [self.config_manager, self.input_manager, self.display_manager, self.event_manager, self.mouse_manager, self.level_manager, self.player_manager]:
+            if man.active == False:
+                raise Exception(str(man) + " Was not active on engine start. Did you properly initialize it?")
             else: man.activate()
 
         self.active = True
@@ -66,10 +71,10 @@ class PyDawgEngine:
 
     def update(self):
         self.config_manager.update()
+        self.input_manager.update()
         self.event_manager.update()
         self.mouse_manager.update()
         self.level_manager.update()
-        self.input_manager.update()
         self.player_manager.update()
         self.game.update()
         self.display_manager.update()

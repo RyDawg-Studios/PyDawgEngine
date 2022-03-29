@@ -10,5 +10,3 @@ class Fg(Actor):
         self.scale = scale
         super().__init__(man, pde)
         self.components["Sprite"] = SpriteComponent(owner=self, sprite=r'data\game\assets\sci_vessel_fg.png', layer=6)
-
-        self.components.pop("DebugButton")

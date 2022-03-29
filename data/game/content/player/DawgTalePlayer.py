@@ -1,5 +1,6 @@
 import random
 from data.engine.actor.actor import Actor
+from data.game.content.objects.cancerbullet import CancerBullet
 from data.game.content.objects.covidbullet import CovidBullet
 from data.game.content.player.SciGameController import SciGameController
 from data.engine.sprite.sprite_component import SpriteComponent
@@ -46,7 +47,7 @@ class DawgTalePlayer(Actor):
             if not self.dead:
                 obj.deconstruct()
                 self.takedamage(1)
-        if obj.__class__ == CovidBullet:
+        if obj.__class__ == CovidBullet or obj.__class__ == CancerBullet:
             if obj.owner != self:
                 obj.deconstruct()
                 self.takedamage(1)

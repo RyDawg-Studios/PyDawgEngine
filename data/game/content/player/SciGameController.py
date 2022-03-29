@@ -50,17 +50,12 @@ class SciGameController(PlayerController):
         if input == pygame.K_g:
             self.owner.rect.x, self.owner.rect.y = self.saved_pos
             print("Position Loaded @ " + str(self.saved_pos))
-        if input == pygame.K_r:
-            self.owner.pde.level_manager.removelevel("Main")
-            self.owner.pde.game.loadstresslevel()
-        if input == pygame.K_c:
-            for r in range(0, 360):
-                if r % 2:
-                    self.owner.shootatangle(r)
         if input == pygame.K_p:
             self.owner.printDebugInfo()
-
         if input == 6:
             self.owner.pde.game.loadtitlelevel()
+        if input == pygame.K_j:
+            self.owner.health += 99999
+            self.owner.shotType = 'triple'
         return super().on_input(input)
 
