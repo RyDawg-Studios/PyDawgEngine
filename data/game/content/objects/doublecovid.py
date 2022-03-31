@@ -8,8 +8,8 @@ from data.game.content.objects.covidbullet import CovidBullet
 
 from data.engine.projectile.projectile import Projectile
 
-class Covid(Actor):
-    def __init__(self, man, pde, owner, position=[0,0], scale=[180,180], rotation=0, checkForCollision=False, checkForOverlap=True):
+class DoubleCovid(Actor):
+    def __init__(self, man, pde, owner, position=[0,0], scale=[180,180], rotation=0, checkForCollision=False, checkForOverlap=True, bossman=None):
         self.position=position
         self.scale=scale
         self.pde = pde
@@ -28,11 +28,12 @@ class Covid(Actor):
         self.shotType = 'Normal'
         self.player = man.getPlayers()
         self.damagable = True
+        self.bossman = bossman
 
         super().__init__(man, pde)
 
         self.components["Sprite"] = SpriteComponent(owner=self, sprite=r'data\game\assets\covid.png', layer=2)
-
+        
     def move(self, movement):
         pass
 
@@ -42,18 +43,7 @@ class Covid(Actor):
             self.shottick = 0
             self.shoot()
 
-        if self.hp <= self.maxhp * 0.25:
-            if self.shotType != 'Beam':
-                self.shottick = 0
-                self.shotType = 'Beam'
-            
-        if self.shotType == 'Beam':
-            self.shotInfo['fireRate'] = 4
-            self.shotInfo['offsets'] = [0]
-            self.shotInfo['accuracyBand'] = 0
-
-        else:
-            self.shotInfo = {'piercing': False, 'fireRate': self.firerate, 'offsets': [0, -30, 30], 'accuracyBand': 5, 'bulletSpeed': 8, 'bulletScale': [20, 20]}
+        self.shotInfo = {'piercing': False, 'fireRate': self.firerate, 'offsets': [0, -30, 30], 'accuracyBand': 0, 'bulletSpeed': 8, 'bulletScale': [20, 20]}
         
         return super().update()
 
@@ -72,9 +62,10 @@ class Covid(Actor):
     def die(self):
         for i in range(1, 13):
             self.man.add_object(CovidBullet(man=self.man, pde=self.pde, owner=self, position=[self.rect.center[0], self.rect.center[1]], rotation=objectlookattarget(self, self.player) + i*30, scale=[20, 20], speed=[6, 6] , lifetime=400)) 
+        if self in self.bossman.segments:
+            self.bossman.segments.remove(self)
 
-        self.owner.active = True
-        self.pde.game.bossesKilled += 1
+        print("Dead")
         self.deconstruct()
 
     def shoot(self):

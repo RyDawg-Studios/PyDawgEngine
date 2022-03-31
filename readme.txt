@@ -1,5 +1,7 @@
 LEUKOSITE
 
+Version 1.2
+
 Game by RyDawgE
 Written in Python with Pygame
 Created with PyDawgEngine
@@ -28,7 +30,8 @@ System:
 
 
 Changes:
-	Added COVID boss that appears roughly 2000 frames after start
-	Warning will appear in center of screen, be sure to be out of the way before it spawns.
-	Rewrote rendering engine to minimize sprite lingering
-	Stability Improvements
+	Added Cancer Boss. Boss appears after beating the COVID boss 3x in a row. It will multiply from the center with each "generation"
+of cells being weaker than the last. Beating the boss grants 16000 points
+	Added barriers at the edges to prevent leaving the game area
+	Removed all protein power-ups while balancing is tweaked
+	

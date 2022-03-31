@@ -57,5 +57,9 @@ class SciGameController(PlayerController):
         if input == pygame.K_j:
             self.owner.health += 99999
             self.owner.shotType = 'triple'
+        if input == pygame.K_UP:
+            self.owner.pde.game.bossesKilled += 1
+        if input == pygame.K_DOWN:
+            self.owner.pde.game.bossesKilled -= 1
         return super().on_input(input)
 

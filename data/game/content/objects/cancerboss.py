@@ -5,7 +5,7 @@ from data.game.content.objects.bullet import Bullet
 from data.engine.fl.world_fl import objectlookattarget
 import random
 from data.game.content.objects.cancerbullet import CancerBullet
-from data.game.content.objects.projectile import Projectile
+from data.engine.projectile.projectile import Projectile
 
 class CancerCell(Actor):
     def __init__(self, man, pde, owner, bossman, position=[0,0], scale=[30,30], rotation=0, checkForCollision=False, checkForOverlap=True, spawner=None, hp=30, duperate = random.randint(10, 20), gen=1):

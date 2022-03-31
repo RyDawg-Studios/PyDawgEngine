@@ -35,6 +35,9 @@ class DawgTalePlayer(Actor):
         self.bulletspeed = 8
         self.shotInfo = {'piercing': False, 'fireRate': self.fireRate, 'offsets': [0], 'accuracyBand': self.accuracyRange, 'bulletSpeed': self.bulletspeed, 'bulletScale': [20, 20]}
 
+        pde.player_manager.__init__(pde=pde)
+
+
         super().__init__(man, pde)
 
         self.components["Sprite"] = SpriteComponent(owner=self, sprite=r'data\game\assets\sci_wbloodcell.png', layer=6 )

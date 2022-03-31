@@ -8,10 +8,10 @@ import random
 from data.game.content.objects.covidbullet import CovidBullet
 from data.engine.anim.anim_manager import AnimManager
 
-from data.game.content.objects.projectile import Projectile
+from data.engine.projectile.projectile import Projectile
 
 class CovidWarning(Actor):
-    def __init__(self, man, pde, owner, position=[0,0], scale=[180,180], rotation=0, checkForCollision=False, checkForOverlap=True):
+    def __init__(self, man, pde, owner, position=[0,0], scale=[180,180], rotation=0, checkForCollision=False, checkForOverlap=True, spawnboss = True):
         self.position=position
         self.scale=scale
         self.checkForCollision=checkForCollision
@@ -21,9 +21,10 @@ class CovidWarning(Actor):
         self.ticktime = 300
         self.ticks = 0
         self.rotation=rotation
-        self.spawnboss = False
+        self.spawnboss = spawnboss
         self.spriteRotation = 0
         self.owner = owner
+        
 
         super().__init__(man, pde)
 
@@ -37,10 +38,10 @@ class CovidWarning(Actor):
     def update(self):
         self.ticks += 1
         if self.ticks >= self.ticktime:
-            if self.spawnboss == False:
+            if self.spawnboss == True:
                 self.owner.spawnboss()
-                self.deconstruct()
-                self.spawnboss = True
+                self.spawnboss = False
+            self.deconstruct()
         return super().update()
 
     def die(self):

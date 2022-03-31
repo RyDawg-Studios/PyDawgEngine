@@ -9,13 +9,14 @@ from data.engine.player.player_manger import PlayerManager
 from data.engine.cfg.config_manager import ConfigManager
 from data.engine.sprite.sprite_manager import SpriteManager
 from data.game.content.sci_game import Eukaryosite as Leukosite
+from dist.main.data.game.content.levels.game_over import GameOverLevel
 
 
 class PyDawgEngine:
 
     def __init__(self) -> None:
 
-        self.game = Leukosite(pde=self)
+        self.game = DebugGame(pde=self)
 
         self.display_manager = DisplayManager(pde=self)
         self.display_manager.active = True

@@ -1,7 +1,7 @@
 import random
 from data.engine.actor.actor import Actor
 from data.game.content.objects.bloodproj import Blood
-from data.game.content.objects.projectile import Projectile
+from data.engine.projectile.projectile import Projectile
 from data.game.content.objects.wall_projectile import WallProjectile
 from data.engine.fl import world_fl
 

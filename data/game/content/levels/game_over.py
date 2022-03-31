@@ -1,5 +1,5 @@
 from data.engine.level.level import Level
-from data.game.content.objects.projectile import Projectile
+from data.engine.projectile.projectile import Projectile
 from data.game.content.objects.projectile_spawner import ProjectileSpawner
 from data.game.content.player.DawgTalePlayer import DawgTalePlayer
 import random

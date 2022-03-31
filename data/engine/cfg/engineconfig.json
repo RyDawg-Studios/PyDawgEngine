@@ -4,7 +4,7 @@
         "caption": "Leukosite",
         "dimensions": "(640, 480)",
         "icon": "r'data\\game\\assets\\sci_bloodcell.png'",
-        "fullscreen": "True",
+        "fullscreen": "False",
         "hideMouseCursor": "False",
         "debugMode": "False"
         

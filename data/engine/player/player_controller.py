@@ -5,7 +5,7 @@ class PlayerController(Component):
     def __init__(self, owner, **kwargs) -> None:
         super().__init__(owner, **kwargs)
         self.inpman = self.owner.pde.input_manager
-
+        
         if len(self.inpman.joysticks) > 0:
             self.resetPos = False
         else:

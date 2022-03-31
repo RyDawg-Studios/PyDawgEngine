@@ -8,7 +8,7 @@ import random
 from data.game.content.objects.covidbullet import CovidBullet
 from data.engine.anim.anim_manager import AnimManager
 
-from data.game.content.objects.projectile import Projectile
+from data.engine.projectile.projectile import Projectile
 
 class CancerWarning(Actor):
     def __init__(self, man, pde, owner, position=[0,0], scale=[180,180], rotation=0, checkForCollision=False, checkForOverlap=True):

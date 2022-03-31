@@ -15,7 +15,8 @@ class Projectile(Actor):
 
         super().__init__(man, pde)
 
-
+    def move(self, movement):
+        pass
 
     def update(self):
         if self.position[0] < -80 or self.position[1] < -80:

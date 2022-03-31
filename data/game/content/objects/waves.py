@@ -3,6 +3,7 @@ from data.game.content.objects.badblood import SickleCell
 from data.game.content.objects.cancermanager import CancerManager
 from data.game.content.objects.cancerwarning import CancerWarning
 from data.game.content.objects.covid import Covid
+from data.game.content.objects.covidmanager import CovidManager
 from data.game.content.objects.covidwarning import CovidWarning
 from data.game.content.objects.wave import Wave
 
@@ -32,18 +33,22 @@ class Wave1(Wave):
                 self.active = False
 
     def spawnboss(self):
-        if self.owner.pde.game.bossesKilled > 2:
-            self.boss = self.owner.man.add_object(CancerManager(man=self.om, pde=self.owner.pde, position=self.warning.position, owner = self))
-        else:
+        if self.owner.pde.game.bossesKilled == 0:
             self.boss = self.owner.man.add_object(Covid(man=self.om, pde=self.owner.pde, position=self.warning.position, rotation=0, owner = self))
+        elif self.owner.pde.game.bossesKilled == 1:
+            self.boss = self.owner.man.add_object(CovidManager(man=self.om, pde=self.owner.pde, position1=self.warning.position, position2=self.warning2.position, owner = self))
+        elif self.owner.pde.game.bossesKilled >= 2:
+            self.boss = self.owner.man.add_object(CancerManager(man=self.om, pde=self.owner.pde, position=self.warning.position, owner = self))
 
 
 
     def onfinish(self):
         self.timeTarget = 2000
-        if self.owner.pde.game.bossesKilled > 2:
-            self.warning = self.owner.man.add_object(CancerWarning(man=self.om, pde=self.owner.pde, position=[100, 240], rotation=0, owner = self))
-        else:
+        if self.owner.pde.game.bossesKilled == 0:
             self.warning = self.owner.man.add_object(CovidWarning(man=self.om, pde=self.owner.pde, position=[320,240], rotation=0, owner = self))
-
+        elif self.owner.pde.game.bossesKilled == 1:
+            self.warning = self.owner.man.add_object(CovidWarning(man=self.om, pde=self.owner.pde, position=[100,100], rotation=0, owner = self))
+            self.warning2 = self.owner.man.add_object(CovidWarning(man=self.om, pde=self.owner.pde, position=[540,100], rotation=0, owner = self, spawnboss = False))
+        elif self.owner.pde.game.bossesKilled >= 2:
+            self.warning = self.owner.man.add_object(CancerWarning(man=self.om, pde=self.owner.pde, position=[100, 240], rotation=0, owner = self))
         return super().onfinish()
