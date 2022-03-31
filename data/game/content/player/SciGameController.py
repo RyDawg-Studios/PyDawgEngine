@@ -15,16 +15,16 @@ class SciGameController(PlayerController):
     def manage_input(self):
         self.ticks += 1
         maxSpeed = self.owner.maxSpeed
-        if pygame.K_RIGHT in self.owner.pde.input_manager.key_inputs or pygame.K_d in self.owner.pde.input_manager.key_inputs:
+        if pygame.K_d in self.owner.pde.input_manager.key_inputs:
             self.owner.movement[0] = 2
-        elif pygame.K_LEFT in self.owner.pde.input_manager.key_inputs or pygame.K_a in self.owner.pde.input_manager.key_inputs:
+        elif pygame.K_a in self.owner.pde.input_manager.key_inputs:
             self.owner.movement[0] = -2
         else:
             self.owner.movement[0] = 0
         
-        if pygame.K_UP in self.owner.pde.input_manager.key_inputs or pygame.K_w in self.owner.pde.input_manager.key_inputs:
+        if pygame.K_w in self.owner.pde.input_manager.key_inputs:
             self.owner.movement[1] = -2
-        elif pygame.K_DOWN in self.owner.pde.input_manager.key_inputs or pygame.K_s in self.owner.pde.input_manager.key_inputs:
+        elif pygame.K_s in self.owner.pde.input_manager.key_inputs:
             self.owner.movement[1] = 2
         else:
             self.owner.movement[1] = 0
@@ -33,6 +33,23 @@ class SciGameController(PlayerController):
             if self.ticks >= self.owner.shotInfo['fireRate']:
                 self.owner.shoot()
                 self.ticks = 0
+
+        if pygame.K_UP in self.owner.pde.input_manager.key_inputs:
+            self.owner.pde.display_manager.scroll[1] = 1
+        elif pygame.K_DOWN in self.owner.pde.input_manager.key_inputs:
+            self.owner.pde.display_manager.scroll[1] = -1
+        else:
+            self.owner.pde.display_manager.scroll[1] = 0
+
+        if pygame.K_RIGHT in self.owner.pde.input_manager.key_inputs:
+            self.owner.pde.display_manager.scroll[0] = 1
+        elif pygame.K_LEFT in self.owner.pde.input_manager.key_inputs:
+            self.owner.pde.display_manager.scroll[0] = -1
+        else:
+            self.owner.pde.display_manager.scroll[0] = 0
+
+
+        
         return super().manage_input()
 
     def on_joystick(self, event):

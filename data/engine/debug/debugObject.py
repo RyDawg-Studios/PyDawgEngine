@@ -62,7 +62,7 @@ class TestActor(Actor):
         self.scale = scale
         self.direction = 1
         super().__init__(man, pde)
-        self.components["Sprite"] = SpriteComponent(owner=self, sprite=r'data\assets\sprites\me.png', layer=1)
+        self.components["Sprite"] = SpriteComponent(owner=self, sprite=r'data\game\assets\sprites\ground.png', layer=1)
 
 
 

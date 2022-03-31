@@ -9,6 +9,7 @@ class DisplayManager:
         self.group = pygame.sprite.LayeredUpdates()
         self.bg = False
         self.bgimg = ''
+        self.scroll = [0, 0]
         
 
     def activate(self):
@@ -19,6 +20,13 @@ class DisplayManager:
             self.screen.fill((0,0,0))
         else:
             self.screen.blit(self.bg, (0, 0))
+
+
+        for level in self.pde.level_manager.levels.values():
+            for object in list(level.objectManager.objects.values()):
+                if hasattr(object, "rect"):
+                    object.rect.centerx -= self.scroll[0]
+                    object.rect.centery -= self.scroll[1]
 
         self.group.update()
         self.group.draw(self.screen)

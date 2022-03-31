@@ -1,9 +1,9 @@
 {
     "config":
     {
-        "caption": "Leukosite",
+        "caption": "PyDawgEngine",
         "dimensions": "(640, 480)",
-        "icon": "r'data\\game\\assets\\sci_bloodcell.png'",
+        "icon": "r'data\\assets\\sprites\\me.png'",
         "fullscreen": "False",
         "hideMouseCursor": "False",
         "debugMode": "False"

@@ -80,8 +80,8 @@ class Actor(Object):
     def update(self):
         self.getoverlaps()
         self.ticks += 1    
-        self.move(movement=self.movement)
         self.checklifetime() 
+        self.move(self.movement)
 
         super().update()
 
@@ -117,8 +117,13 @@ class Actor(Object):
         pass
 
     def move(self, movement):
-        self.speed = movement
         if self.canMove:
+            self.speed = movement
+            if movement[0] > 0 and movement[0] > 6:
+                movement[0] = 6
+
+            if movement[0] < 0 and movement[0] < -6:
+                movement[0] = -6
             self.rect.x += movement[0]
             for object in self.getoverlaps():
                 if hasattr(object, 'checkForCollision') and object.checkForCollision and self.checkForCollision:
@@ -135,8 +140,7 @@ class Actor(Object):
 
                     if object not in self.collideInfo["Objects"]:
                         self.collideInfo["Objects"].append(object)
-                     
-
+                    
             self.rect.y += movement[1]
             for object in self.getoverlaps():
                 if hasattr(object, 'checkForCollision') and object.checkForCollision and self.checkForCollision:
@@ -153,6 +157,9 @@ class Actor(Object):
             
                     if object not in self.collideInfo["Objects"]:
                         self.collideInfo["Objects"].append(object) 
+                else:
+                    self.collideInfo["Top"], self.collideInfo["Bottom"] = False, False
+
 
         self.position[0] = self.rect.center[0]
         self.position[1] = self.rect.center[1]
@@ -170,6 +177,8 @@ class Actor(Object):
         if self.ticks >= self.lifetime and self.lifetime != -1:
             self.deconstruct()
 
+    def scrollcameratocenter(self):
+        self.pde.display_manager.scroll[0] = (self.rect.centerx - 320)
 
     def printDebugInfo(self):
         print(f"Name: {str(self)}\n   Position: {self.position}\n   Scale: {self.scale}\n   Rotation: {self.rotation}\n   Movement: {self.movement}\n   Overlap Info: {self.overlapInfo}\n   Collide Info: {self.collideInfo}\n   Components: {self.components.keys()}")
