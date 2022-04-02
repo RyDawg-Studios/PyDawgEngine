@@ -16,6 +16,7 @@ class DisplayManager:
         self.configurewindow()
 
     def update(self):
+        
         if self.bg == False:
             self.screen.fill((0,0,0))
         else:

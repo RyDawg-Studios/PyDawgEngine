@@ -6,7 +6,7 @@
         "icon": "r'data\\assets\\sprites\\me.png'",
         "fullscreen": "False",
         "hideMouseCursor": "False",
-        "debugMode": "False"
+        "debugMode": "True"
         
     }
 }

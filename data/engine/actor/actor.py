@@ -78,11 +78,9 @@ class Actor(Object):
 
 
     def update(self):
-        self.getoverlaps()
         self.ticks += 1    
         self.checklifetime() 
         self.move(self.movement)
-
         super().update()
 
 
@@ -116,49 +114,44 @@ class Actor(Object):
     def whileoverlap(self, obj):
         pass
 
+    def collide(self, obj, side):
+        pass
+
     def move(self, movement):
+        self.collideInfo = {"Top": False, "Bottom": False, "Left": False, "Right": False, "Objects": []}
         if self.canMove:
             self.speed = movement
-            if movement[0] > 0 and movement[0] > 6:
-                movement[0] = 6
-
-            if movement[0] < 0 and movement[0] < -6:
-                movement[0] = -6
             self.rect.x += movement[0]
-            for object in self.getoverlaps():
+            hits = self.getoverlaps()  
+            for object in hits:
                 if hasattr(object, 'checkForCollision') and object.checkForCollision and self.checkForCollision:
+                    if object not in self.collideInfo["Objects"]:
+                        self.collideInfo["Objects"].append(object)
                     if movement[0] > 0:
                         self.rect.right = object.rect.left
                         self.collideInfo["Right"] = True
-                    else:
-                        self.collideInfo["Right"] = False      
-                    if movement[0] < 0:
+                        object.collide(self, "Left")
+                    elif movement[0] < 0:
                         self.rect.left = object.rect.right
                         self.collideInfo["Left"] = True
-                    else:
-                        self.collideInfo["Left"] = False  
-
+                        object.collide(self, "Right")
+            self.rect.y += movement[1]
+            hits = self.getoverlaps()  
+            for object in hits:
+                if hasattr(object, 'checkForCollision') and object.checkForCollision and self.checkForCollision:
                     if object not in self.collideInfo["Objects"]:
                         self.collideInfo["Objects"].append(object)
-                    
-            self.rect.y += movement[1]
-            for object in self.getoverlaps():
-                if hasattr(object, 'checkForCollision') and object.checkForCollision and self.checkForCollision:
                     if movement[1] > 0:
                         self.rect.bottom = object.rect.top
                         self.collideInfo["Bottom"] = True
-                    else:
-                        self.collideInfo["Bottom"] = False   
-                    if movement[1] < 0:
+                        object.collide(self, "Top")
+                    elif movement[1] < 0:
                         self.rect.top = object.rect.bottom
                         self.collideInfo["Top"] = True
-                    else:
-                        self.collideInfo["Top"] = False  
-            
-                    if object not in self.collideInfo["Objects"]:
-                        self.collideInfo["Objects"].append(object) 
-                else:
-                    self.collideInfo["Top"], self.collideInfo["Bottom"] = False, False
+                        object.collide(self, "Bottom")
+
+
+
 
 
         self.position[0] = self.rect.center[0]

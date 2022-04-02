@@ -8,7 +8,7 @@ from data.engine.mouse.mouse_manager import MouseManager
 from data.engine.player.player_manger import PlayerManager
 from data.engine.cfg.config_manager import ConfigManager
 from data.engine.sprite.sprite_manager import SpriteManager
-from data.game.content.sci_game import Eukaryosite
+
 
 
 
@@ -16,7 +16,7 @@ class PyDawgEngine:
 
     def __init__(self) -> None:
 
-        self.game = Eukaryosite(pde=self)
+        self.game = DebugGame(pde=self)
 
 
         self.event_manager = EventManager(pde=self)
@@ -47,7 +47,7 @@ class PyDawgEngine:
 
         self.clock = pygame.time.Clock()
         self.dt = 0
-        self.targetFPS = 60
+        self.targetFPS = 30
         self.fps = 0
 
 
@@ -72,14 +72,14 @@ class PyDawgEngine:
             self.update()
 
     def update(self):
+        self.display_manager.update()
         self.config_manager.update()
-        self.input_manager.update()
         self.event_manager.update()
         self.mouse_manager.update()
         self.level_manager.update()
         self.player_manager.update()
+        self.input_manager.update()
         self.game.update()
-        self.display_manager.update()
 
         self.dt = self.clock.tick(60) * 0.001 * self.targetFPS
         self.fps = round(self.clock.get_fps())
