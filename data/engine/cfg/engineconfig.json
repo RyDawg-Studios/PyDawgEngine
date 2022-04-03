@@ -4,9 +4,9 @@
         "caption": "PyDawgEngine",
         "dimensions": "(640, 480)",
         "icon": "r'data\\assets\\sprites\\me.png'",
-        "fullscreen": "False",
+        "fullscreen": "True",
         "hideMouseCursor": "False",
-        "debugMode": "True"
+        "debugMode": "False"
         
     }
 }

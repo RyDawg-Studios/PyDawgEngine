@@ -113,7 +113,7 @@ class SpinProjectile(Actor):
 
         super().__init__(man, pde)
         self.components["Projectile"] = ProjectileComponent(owner=self, rotation=self.rotation, speed=self.speed)
-        self.components["Sprite"] = SpriteComponent(owner=self, sprite=r'data\game\assets\sci_wbloodcell.png', layer=1)
+        self.components["Sprite"] = SpriteComponent(owner=self, sprite=r'data\Leukosite\assets\sci_wbloodcell.png', layer=1)
 
 
     def move(self, movement):

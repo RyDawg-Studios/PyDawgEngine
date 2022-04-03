@@ -70,7 +70,7 @@ class Actor(Object):
             self.collideRect = self.rect
 
 
-        super().__init__(man, pde, self.components)
+        super().__init__(man, pde)
 
         if eval(self.pde.config_manager.config["config"]["debugMode"]):
             self.components["DebugButton"] = Button(owner=self, bind=self.printDebugInfo)
@@ -80,6 +80,7 @@ class Actor(Object):
     def update(self):
         self.ticks += 1    
         self.checklifetime() 
+        self.getoverlaps()
         self.move(self.movement)
         super().update()
 

@@ -29,6 +29,8 @@ class AnimManager(Component):
             self.setAnimState(state=str(name))
 
     def setAnimState(self, state):
+        if self.animstate != state:
+            self.animframe = 0
         self.animstate = state
         self.animspeed = self.anims[self.animstate][1]
 

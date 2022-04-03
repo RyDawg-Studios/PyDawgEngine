@@ -1,4 +1,5 @@
 import pygame
+from data.Leukosite.content.sci_game import Eukaryosite
 from data.engine.debug.debugGame import DebugGame
 from data.engine.display.display_manager import DisplayManager
 from data.engine.event.event_manager import EventManager
@@ -12,11 +13,12 @@ from data.engine.sprite.sprite_manager import SpriteManager
 
 
 
+
 class PyDawgEngine:
 
     def __init__(self) -> None:
 
-        self.game = DebugGame(pde=self)
+        self.game = Eukaryosite(pde=self)
 
 
         self.event_manager = EventManager(pde=self)
@@ -75,10 +77,10 @@ class PyDawgEngine:
         self.display_manager.update()
         self.config_manager.update()
         self.event_manager.update()
+        self.input_manager.update()
         self.mouse_manager.update()
         self.level_manager.update()
         self.player_manager.update()
-        self.input_manager.update()
         self.game.update()
 
         self.dt = self.clock.tick(60) * 0.001 * self.targetFPS
