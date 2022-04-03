@@ -1,5 +1,4 @@
 import pygame
-from data.Leukosite.content.sci_game import Eukaryosite
 from data.engine.debug.debugGame import DebugGame
 from data.engine.display.display_manager import DisplayManager
 from data.engine.event.event_manager import EventManager
@@ -18,7 +17,7 @@ class PyDawgEngine:
 
     def __init__(self) -> None:
 
-        self.game = Eukaryosite(pde=self)
+        self.game = DebugGame(pde=self)
 
 
         self.event_manager = EventManager(pde=self)
