@@ -29,12 +29,22 @@ class Sprite(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(self.image, (self.scale[0],self.scale[1]))
         self.image = pygame.transform.rotate(self.image, self.rotation)
 
+        self.image.set_colorkey((0,0,0))
+
+        self.ogimage = self.image
  
         #add sprite to sprite layer
         parent.pde.display_manager.group.add(self)
 
+    def updatetransform(self):
+        img = pygame.transform.scale(self.ogimage, self.scale)
+        img = pygame.transform.rotate(img, self.rotation)
+        self.image = img
+        self.rect = self.image.get_rect()
+        self.rect.center = self.parent.rect.center
+
     def update(self):
-        self.rect = self.parent.rect
+        self.updatetransform()
         super().update()
 
     

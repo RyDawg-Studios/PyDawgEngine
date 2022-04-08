@@ -22,9 +22,9 @@ class Sprite(pygame.sprite.Sprite):
     def update(self):
         self.animframe += 0.3
         if self.animframe < len(self.images):
-            self.image = self.images[int(self.animframe)]
-            self.image = pygame.transform.scale(self.image, (self.parent.spriteScale[0],self.parent.spriteScale[1]))
-            self.image = pygame.transform.rotate(self.image, self.parent.spriteRotation)
+            self.ogimage = self.images[int(self.animframe)]
+            self.image = pygame.transform.scale(self.ogimage, (self.parent.spriteScale[0],self.parent.spriteScale[1]))
+            self.image = pygame.transform.rotate(self.ogimage, self.parent.spriteRotation)
             self.rect = self.parent.rect
         else:
             self.animframe = 0

@@ -9,6 +9,7 @@ from data.engine.anim.anim_sprite import AnimSprite
 from data.engine.debug.debugController import DebugController
 from data.engine.object.object import Object
 from data.engine.actor.actor import Actor
+from data.engine.fl.world_fl import objectlookattarget
 from data.engine.sprite.sprite_component import SpriteComponent
 
 
@@ -47,6 +48,9 @@ class TestSpriteActor(Actor):
 
         elif self.speed[0] > 0:
             self.spriteScale[0] = abs(self.spriteScale[0])
+
+        self.components["Sprite"].sprite.rotation += 1
+        
         return super().update()
 
 
@@ -101,27 +105,28 @@ class TestPlayer(Actor):
 
 
 class SpinProjectile(Actor):
-    def __init__(self, man, pde, owner, position=[0,0], scale=[16,16], speed=[1,1], rotation=0, checkForCollision=False, checkForOverlap=True, lifetime=-1):
+    def __init__(self, man, pde, player, owner=None, position=[0,0], scale=[16,16], speed=[1,1], rotation=0, checkForCollision=False, checkForOverlap=True, lifetime=-1):
         self.position=position
         self.scale=scale
         self.checkForCollision=checkForCollision
         self.checkForOverlap=checkForOverlap
         self.lifetime=lifetime
         self.rotation=rotation
-        self.speed = [1, 1]
+        self.player = player
+        self.speed = [0, 0]
         self.owner = owner
 
         super().__init__(man, pde)
         self.components["Projectile"] = ProjectileComponent(owner=self, rotation=self.rotation, speed=self.speed)
-        self.components["Sprite"] = SpriteComponent(owner=self, sprite=r'data\Leukosite\assets\sci_wbloodcell.png', layer=1)
+        self.components["Sprite"] = SpriteComponent(owner=self, sprite=r'data\assets\sprites\debug.png', layer=1)
 
 
     def move(self, movement):
         pass
 
     def update(self):
-        self.position = self.owner.position
-        self.rotation += 1
+        self.rotation = objectlookattarget(self, self.player)
+        #self.components["Sprite"].sprite.rotation = self.rotation
         return super().update()
 
 

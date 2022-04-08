@@ -41,10 +41,11 @@ class AnimManager(Component):
                 if self.animframe >= len(self.anims[self.animstate][0]):
                     self.animframe = 0
                 else:
-                    self.sprite.sprite.image = self.anims[self.animstate][0][int(self.animframe)]
-                    self.sprite.sprite.image = pygame.transform.scale(self.sprite.sprite.image, ([abs(self.sprite.sprite.parent.spriteScale[0]),abs(self.sprite.sprite.parent.spriteScale[1])]))
-                    self.sprite.sprite.image = pygame.transform.rotate(self.sprite.sprite.image, self.sprite.sprite.parent.spriteRotation)
-                    self.sprite.sprite.rect = self.sprite.sprite.parent.rect
+                    self.sprite.sprite.ogimage = self.anims[self.animstate][0][int(self.animframe)]
+                    self.sprite.sprite.updatetransform()
+                    # self.sprite.sprite.image = pygame.transform.scale(self.sprite.sprite.image, ([abs(self.sprite.sprite.parent.spriteScale[0]),abs(self.sprite.sprite.parent.spriteScale[1])]))
+                    # self.sprite.sprite.image = pygame.transform.rotate(self.sprite.sprite.image, self.sprite.sprite.parent.spriteRotation)
+                    # self.sprite.sprite.rect = self.sprite.sprite.parent.rect
             
 
 

@@ -1,5 +1,5 @@
 import random
-from data.engine.debug.debugObject import TestActor, TestPlayer
+from data.engine.debug.debugObject import SpinProjectile, TestActor, TestPlayer
 from data.engine.level.level import Level
 
 
@@ -10,10 +10,10 @@ class DebugLevel(Level):
         self.changebackground(r'data\assets\sprites\bg.png')
 
 
-        self.objectManager.add_object(TestPlayer(man=self.objectManager, pde=pde, position=[200, 200]))
+        p = self.objectManager.add_object(TestPlayer(man=self.objectManager, pde=pde, position=[200, 200], scale=[32, 32]))
         self.objectManager.add_object(TestActor(man=self.objectManager, pde=pde, position=[125, 125]))
         self.objectManager.add_object(TestActor(man=self.objectManager, pde=pde, position=[100, 100]))
-
+        self.objectManager.add_object(SpinProjectile(man=self.objectManager, pde=pde, position=[200, 200], player=p))
 
 
 
