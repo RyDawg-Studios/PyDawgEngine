@@ -49,7 +49,7 @@ class TestSpriteActor(Actor):
         elif self.speed[0] > 0:
             self.spriteScale[0] = abs(self.spriteScale[0])
 
-        self.components["Sprite"].sprite.rotation += 1
+        #self.components["Sprite"].sprite.rotation += 1
         
         return super().update()
 
@@ -126,7 +126,7 @@ class SpinProjectile(Actor):
 
     def update(self):
         self.rotation = objectlookattarget(self, self.player)
-        #self.components["Sprite"].sprite.rotation = self.rotation
+        self.components["Sprite"].sprite.rotation = self.rotation
         return super().update()
 
 
