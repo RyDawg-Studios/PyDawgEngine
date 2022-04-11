@@ -1,6 +1,5 @@
 import pygame
 from data.engine.component.component import Component
-from data.engine.action.queues.queue import Queue
 import math
 
 class ProjectileComponent(Component):

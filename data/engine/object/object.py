@@ -1,5 +1,5 @@
 class Object:
-    def __init__(self, man, pde) -> None:
+    def __init__(self, man, pde):
         self.man = man
         self.pde = pde
         self.components = {}

@@ -171,8 +171,10 @@ class Actor(Object):
         if self.ticks >= self.lifetime and self.lifetime != -1:
             self.deconstruct()
 
-    def scrollcameratocenter(self):
+    def scrollcameratocenterx(self):
         self.pde.display_manager.scroll[0] = (self.rect.centerx - 320)
+    def scrollcameratocentery(self):
+        self.pde.display_manager.scroll[1] = (self.rect.centerx - 240)
 
     def printDebugInfo(self):
         print(f"Name: {str(self)}\n   Position: {self.position}\n   Scale: {self.scale}\n   Rotation: {self.rotation}\n   Movement: {self.movement}\n   Overlap Info: {self.overlapInfo}\n   Collide Info: {self.collideInfo}\n   Components: {self.components.keys()}")

@@ -1,9 +1,10 @@
 from turtle import pos
 import pygame
 from data.engine.actor.actor import Actor
+from data.engine.ai.ai_component import AIComponent
 from data.engine.projectile.projectile_component import ProjectileComponent
 from data.engine.sprite.sprite_component import SpriteComponent
-import math
+from data.engine.debug.debugAI import debugAI
 from data.engine.anim.anim_manager import AnimManager
 from data.engine.anim.anim_sprite import AnimSprite
 from data.engine.debug.debugController import DebugController
@@ -22,7 +23,7 @@ class TestSpriteActor(Actor):
         super().__init__(man, pde)
         self.components["Sprite"] = SpriteComponent(owner=self, sprite=r'data\assets\sprites\me.png', layer=2)
 
-        self.components["Anim"] = AnimManager(owner=self, layer=2, sprite=self.components["Sprite"])
+        self.components["Anim"] = AnimManager(owner=self, sprite=self.components["Sprite"])
 
         self.components["Anim"].addAnimation(name='runright', anim=r'data\assets\anims\runright', speed=0.2, set=True, stopFrame=-1)
         self.components["Anim"].addAnimation(name='runleft', anim=r'data\assets\anims\runleft', speed=0.2, set=True, stopFrame=-1)
@@ -113,19 +114,21 @@ class SpinProjectile(Actor):
         self.lifetime=lifetime
         self.rotation=rotation
         self.player = player
-        self.speed = [0, 0]
+        self.speed = [2, 2]
         self.owner = owner
 
         super().__init__(man, pde)
-        self.components["Projectile"] = ProjectileComponent(owner=self, rotation=self.rotation, speed=self.speed)
+        self.proj = self.components["Projectile"] = ProjectileComponent(owner=self, rotation=self.rotation, speed=self.speed)
         self.components["Sprite"] = SpriteComponent(owner=self, sprite=r'data\assets\sprites\debug.png', layer=1)
+        ai = self.components["AI"] = AIComponent(owner=self)
+        ai.addstate(name="default", state=debugAI)
 
 
     def move(self, movement):
         pass
 
     def update(self):
-        self.rotation = objectlookattarget(self, self.player)
+        self.proj.speed = self.speed
         self.components["Sprite"].sprite.rotation = self.rotation
         return super().update()
 

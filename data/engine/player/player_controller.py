@@ -1,5 +1,4 @@
 from data.engine.component.component import Component
-from data.engine.action.queues.queue import Queue
 
 class PlayerController(Component):
     def __init__(self, owner, **kwargs) -> None:
