@@ -7,7 +7,7 @@ class debugAI(AIState):
     def __init__(self, man, pde, owner):
         self.destination = [random.randint(0, 640), random.randint(0, 480)]
         self.waitticks = 0
-        self.waittime = 0
+        self.waittime = random.randint(0, 40)
         super().__init__(man, pde, owner)
 
     def update(self):
@@ -16,7 +16,6 @@ class debugAI(AIState):
             self.owner.owner.speed = [0, 0]
             if self.waitticks >= self.waittime:
                 self.waitticks = 0
-                self.waittime = 0
                 self.owner.owner.speed = self.owner.owner.defaultspeed
                 self.destination = [random.randint(0, 640), random.randint(0, 480)]
                 

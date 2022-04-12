@@ -29,8 +29,5 @@ class DebugController(PlayerController):
         else:
             self.owner.movement[1] = 0
 
-        if pygame.K_SPACE in self.owner.pde.input_manager.key_inputs:
-            self.owner.shootweapon()
-
 
         return super().manage_input()

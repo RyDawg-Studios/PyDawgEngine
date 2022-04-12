@@ -1,5 +1,4 @@
 import pygame
-from data.Leukosite.content.sci_game import Eukaryosite
 from data.engine.display.display_manager import DisplayManager
 from data.engine.event.event_manager import EventManager
 from data.engine.input.input_manager import InputManager
