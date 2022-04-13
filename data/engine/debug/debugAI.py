@@ -2,12 +2,15 @@ from data.engine.ai.ai_state import AIState
 from data.engine.fl.world_fl import objectlookatposition
 import random
 
+from data.topdownshooter.content.objects.enemy.aitarget import AIMovementTarget
+
 
 class debugAI(AIState):
     def __init__(self, man, pde, owner):
         self.destination = [random.randint(0, 640), random.randint(0, 480)]
         self.waitticks = 0
         self.waittime = random.randint(0, 40)
+        self.destactor = man.add_object(obj=AIMovementTarget(man, pde))
         super().__init__(man, pde, owner)
 
     def update(self):

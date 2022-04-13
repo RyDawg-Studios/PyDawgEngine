@@ -16,7 +16,10 @@ class Sprite(pygame.sprite.Sprite):
         if self.sprite in self.parent.pde.sprite_manager.sprites:
             self.image = self.parent.pde.sprite_manager.sprites[self.sprite]
         else:
-            self.image = pygame.image.load(self.sprite).convert_alpha()
+            try: 
+                self.image = pygame.image.load(self.sprite).convert_alpha()
+            except FileNotFoundError:
+                self.image = pygame.image.load(r'data\assets\sprites\undef.png').convert_alpha()
             self.parent.pde.sprite_manager.sprites[self.sprite] = self.image
 
 
