@@ -8,4 +8,8 @@ pygame.joystick.init()
 
 #Create Engine Object
 if __name__ == '__main__':
+<<<<<<< Updated upstream
     engine = PyDawgEngine()
+=======
+    engine = PyDawgEngine() 
+>>>>>>> Stashed changes

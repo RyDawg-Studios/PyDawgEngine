@@ -51,6 +51,8 @@ class SpriteComponent(Component):
     def __init__(self, owner, sprite, layer=0, **kwargs) -> None:
         super().__init__(owner, **kwargs)
 
+        self.path = sprite
+
         if self.owner.useSpriteRectForCollision:
             self.owner.rect = self.sprite.image.get_rect()
 

@@ -66,10 +66,13 @@ class TestActor(Actor):
         self.position = position
         self.scale = scale
         self.direction = 1
+        self.hp = 100
+        self.useCenterForPosition = True
         super().__init__(man, pde)
-        self.components["Sprite"] = SpriteComponent(owner=self, sprite=r'data\assets\sprites\me.png', layer=2)
+        self.components["Sprite"] = SpriteComponent(owner=self, sprite=r'data\assets\sprites\mariohitbox.png', layer=2)
 
-
+    def takedamage(self, obj):
+        return True
 
     def update(self):
         pass

@@ -97,13 +97,9 @@ class Actor(Object):
                                 hits.append(object)
                                 object.whileoverlap(self)
                                 self.whileoverlap(object)
-                                if object not in self.overlapInfo["Objects"]:
-                                    self.overlapInfo["Objects"].append(object)
-                                    object.overlap(self)
-                                    self.overlap(object)
-                            else:
-                                if object in self.overlapInfo["Objects"]:
-                                    self.overlapInfo["Objects"].remove(object)
+                                object.overlap(self)
+                                self.overlap(object)
+        self.overlapInfo["Objects"] = hits
         return hits
 
     def checkoverlaps(self):
@@ -174,7 +170,7 @@ class Actor(Object):
     def scrollcameratocenterx(self):
         self.pde.display_manager.scroll[0] = (self.rect.centerx - 320)
     def scrollcameratocentery(self):
-        self.pde.display_manager.scroll[1] = (self.rect.centerx - 240)
+        self.pde.display_manager.scroll[1] = (self.rect.centery - 240)
 
     def printDebugInfo(self):
         print(f"Name: {str(self)}\n   Position: {self.position}\n   Scale: {self.scale}\n   Rotation: {self.rotation}\n   Movement: {self.movement}\n   Overlap Info: {self.overlapInfo}\n   Collide Info: {self.collideInfo}\n   Components: {self.components.keys()}")

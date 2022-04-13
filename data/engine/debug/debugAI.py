@@ -18,7 +18,6 @@ class debugAI(AIState):
                 self.waitticks = 0
                 self.owner.owner.speed = self.owner.owner.defaultspeed
                 self.destination = [random.randint(0, 640), random.randint(0, 480)]
-                
         else:
             self.owner.owner.rotation = objectlookatposition(self.owner.owner, self.destination)
         return super().update()
