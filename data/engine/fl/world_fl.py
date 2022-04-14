@@ -17,3 +17,13 @@ def objectlookatposition(object, position=[0,0]):
     d = math.degrees(a) 
 
     return d + 90
+
+def getpositionlookatvector(object, target):
+    d = objectlookatposition(object, target)
+    r = math.radians(d)
+    return [math.cos(r), -math.sin(r)]
+
+def getobjectlookatvector(object, target):
+    d = objectlookattarget(object, target)
+    r = math.radians(d)
+    return [round(math.cos(r), 3), -round(math.sin(r), 3)]
