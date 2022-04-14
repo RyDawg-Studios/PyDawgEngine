@@ -10,6 +10,7 @@ class debugAI(AIState):
         self.destination = [random.randint(0, 640), random.randint(0, 480)]
         self.waitticks = 0
         self.waittime = random.randint(0, 40)
+        self.travelticks = 0
         self.r = 0
         super().__init__(man, pde, owner)
 
@@ -20,9 +21,13 @@ class debugAI(AIState):
             if self.waitticks >= self.waittime:
                 self.waitticks = 0
                 self.destination = [random.randint(0, 600), random.randint(0, 400)]
-                print(self.destination)
-                print(self.r)
+                self.travelticks = 0
         else:
+            self.travelticks += 1
+            if self.travelticks >= 300:
+                self.waitticks = 0
+                self.destination = [random.randint(0, 600), random.randint(0, 400)]
+                self.travelticks = 0
             self.r = getpositionlookatvector(self.owner.owner, self.destination)
             self.owner.owner.movement = self.r
         return super().update()

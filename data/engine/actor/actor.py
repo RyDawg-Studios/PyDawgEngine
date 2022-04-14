@@ -12,21 +12,20 @@ class Actor(Object):
         self.collisionThreshHold = 2
         self.ticks = 0
         self.movement=[0, 0]
+        self.components = {}
 
         if not hasattr(self, 'position'):
             self.position = [0, 0]
+        self.position = pygame.Vector2(self.position)
 
         if not hasattr(self, 'scale'):
-            self.scale = [30, 30]
+            self.scale = [32, 32]
 
         if not hasattr(self, 'rotation'):
             self.rotation = 0
 
         if not hasattr(self, 'name'):
             self.name = str(self)
-
-        if not hasattr(self, 'components'):
-            self.components = {}
         
         if not hasattr(self, 'maxSpeed'):
             self.maxSpeed = [2,2]
@@ -47,13 +46,7 @@ class Actor(Object):
             self.direction = [0,0]
 
         if not hasattr(self, 'velocity'):
-            pass
-        
-        if not hasattr(self, 'spriteScale'):
-            self.spriteScale = self.scale
-
-        if not hasattr(self, 'spriteRotation'):
-            self.spriteRotation = self.rotation
+            self.velocity = 1
 
         if not hasattr(self, 'useSriteRectForCollision'):
             self.useSpriteRectForCollision = False
@@ -115,10 +108,10 @@ class Actor(Object):
         pass
 
     def move(self, movement):
+        self.movement = pygame.math.Vector2(self.movement)
         self.collideInfo = {"Top": False, "Bottom": False, "Left": False, "Right": False, "Objects": []}
         if self.canMove:
-            self.speed = movement
-            self.rect.x += movement[0]
+            self.rect.x += self.movement.x * self.velocity
             hits = self.getoverlaps()  
             for object in hits:
                 if hasattr(object, 'checkForCollision') and object.checkForCollision and self.checkForCollision:
@@ -132,7 +125,8 @@ class Actor(Object):
                         self.rect.left = object.rect.right
                         self.collideInfo["Left"] = True
                         object.collide(self, "Right")
-            self.rect.y += movement[1]
+        if self.canMove:
+            self.rect.y += self.movement.y * self.velocity
             hits = self.getoverlaps()  
             for object in hits:
                 if hasattr(object, 'checkForCollision') and object.checkForCollision and self.checkForCollision:

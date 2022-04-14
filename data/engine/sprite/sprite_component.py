@@ -60,7 +60,7 @@ class SpriteComponent(Component):
             self.owner.rect = self.sprite.image.get_rect()
 
 
-        self.sprite = Sprite(parent=owner, sprite=sprite, layer=layer, rotation=self.owner.spriteRotation, scale=self.owner.spriteScale)
+        self.sprite = Sprite(parent=owner, sprite=sprite, layer=layer, rotation=self.owner.rotation, scale=self.owner.scale)
 
 
     
