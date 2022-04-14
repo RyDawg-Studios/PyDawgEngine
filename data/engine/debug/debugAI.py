@@ -2,8 +2,6 @@ from data.engine.ai.ai_state import AIState
 from data.engine.fl.world_fl import objectlookatposition, getpositionlookatvector
 import random
 
-from data.topdownshooter.content.objects.enemy.aitarget import AIMovementTarget
-
 
 class debugAI(AIState):
     def __init__(self, man, pde, owner):

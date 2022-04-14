@@ -32,6 +32,8 @@ class Sprite(pygame.sprite.Sprite):
 
 
     def updatetransform(self):
+        self.scale = self.parent.scale
+        self.rotation = self.parent.rotation
         img = pygame.transform.scale(self.ogimage, self.scale)
         img = pygame.transform.rotate(img, self.rotation)
         self.image = img
@@ -51,19 +53,13 @@ class Sprite(pygame.sprite.Sprite):
 
 
 class SpriteComponent(Component):
-    def __init__(self, owner, sprite, layer=0, **kwargs) -> None:
-        super().__init__(owner, **kwargs)
+    def __init__(self, owner, sprite, layer=0):
+        super().__init__(owner)
 
         self.path = sprite
 
-        if self.owner.useSpriteRectForCollision:
-            self.owner.rect = self.sprite.image.get_rect()
+        self.sprite = Sprite(parent=owner, sprite=sprite, layer=layer, rotation=self.owner.rotation, scale=self.owner.scale)
 
-
-        self.sprite = Sprite(parent=owner, sprite=sprite, layer=layer, rotation=self.owner.spriteRotation, scale=self.owner.spriteScale)
-
-
-    
     def update(self):
         self.sprite.update()
 

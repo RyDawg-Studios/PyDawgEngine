@@ -5,75 +5,46 @@ from data.engine.widgets.button import Button
 
 
 class Actor(Object):
-    def __init__(self, man, pde):
+    def __init__(self, man, pde, position=[0,0], scale=[32, 32], rotation=0, maxSpeed=4, lifetime=-1, components={}, useCenterForPosition=False, checkForCollision = True, checkForOverlap = True):
+        super().__init__(man, pde)
+
+
+        #---------< General Info >---------#
+
+        self.name = str(self)
+        self.lifetime = lifetime
+        self.ticks = 0
+        self.components = components
+
+        #---------< Transform Info >---------#
+
+        self.position = pygame.math.Vector2(position)
+        self.scale = scale
+        self.rotation = rotation
+        self.useCenterForPosition = useCenterForPosition
+        self.rect = pygame.rect.Rect(self.position[0], self.position[1], self.scale[0], self.scale[1])
+
+        #---------< Physics Info >---------#
+        
+        self.velocity = 5
         self.canMove = True
+        self.movement=pygame.math.Vector2([1, 1]).normalize()
+        self.maxSpeed = maxSpeed
+        self.speed = [0, 0]
+        self.direction = 1
+
+        #---------< Collision Info >---------#
+
         self.overlapInfo = {"Overlapping" : False, "Objects" : [], "Count": 0}
         self.collideInfo = {"Top": False, "Bottom": False, "Left": False, "Right": False, "Objects": []}
-        self.collisionThreshHold = 2
-        self.ticks = 0
-        self.movement=[0, 0]
+        self.checkForOverlap = checkForOverlap
+        self.checkForCollision = checkForCollision
 
-        if not hasattr(self, 'position'):
-            self.position = [0, 0]
-
-        if not hasattr(self, 'scale'):
-            self.scale = [30, 30]
-
-        if not hasattr(self, 'rotation'):
-            self.rotation = 0
-
-        if not hasattr(self, 'name'):
-            self.name = str(self)
-
-        if not hasattr(self, 'components'):
-            self.components = {}
-        
-        if not hasattr(self, 'maxSpeed'):
-            self.maxSpeed = [2,2]
-
-        if not hasattr(self, 'checkForOverlap'):
-            self.checkForOverlap = True
-
-        if not hasattr(self, 'checkForCollision'):
-            self.checkForCollision = True
-
-        if not hasattr(self, 'lifetime'):
-            self.lifetime = -1
-
-        if not hasattr(self, 'speed'):
-            self.speed = [0,0]
-
-        if not hasattr(self, 'direction'):
-            self.direction = [0,0]
-
-        if not hasattr(self, 'velocity'):
-            pass
-        
-        if not hasattr(self, 'spriteScale'):
-            self.spriteScale = self.scale
-
-        if not hasattr(self, 'spriteRotation'):
-            self.spriteRotation = self.rotation
-
-        if not hasattr(self, 'useSriteRectForCollision'):
-            self.useSpriteRectForCollision = False
-
-        if not hasattr(self, 'useCenterForPosition'):
-            self.useCenterForPosition = False
-
-        if not hasattr(self, 'rect'):
-            self.rect = pygame.rect.Rect(self.position[0], self.position[1], self.scale[0], self.scale[1])
-            if self.useCenterForPosition:
-                self.rect.center = [self.position[0], self.position[1]]
-
-        if not hasattr(self, 'collideRect'):
-            self.collideRect = self.rect
-
-
-        super().__init__(man, pde)
+        #---------< Debug Info >---------#
 
         if eval(self.pde.config_manager.config["config"]["debugMode"]):
             self.components["DebugButton"] = Button(owner=self, bind=self.printDebugInfo)
+
 
 
 
@@ -84,8 +55,6 @@ class Actor(Object):
         self.move(self.movement)
         super().update()
 
-
-
     def getoverlaps(self):
         hits = []
         if self.checkForOverlap:
@@ -93,7 +62,7 @@ class Actor(Object):
                 for object in list(level.objectManager.objects.values()):
                     if hasattr(object, 'checkForOverlap'):
                         if self.checkForOverlap == True:
-                            if self.collideRect.colliderect(object.collideRect) and object != self:
+                            if self.rect.colliderect(object.rect) and object != self:
                                 hits.append(object)
                                 object.whileoverlap(self)
                                 self.whileoverlap(object)
@@ -118,7 +87,9 @@ class Actor(Object):
         self.collideInfo = {"Top": False, "Bottom": False, "Left": False, "Right": False, "Objects": []}
         if self.canMove:
             self.speed = movement
-            self.rect.x += movement[0]
+            self.position.x += movement.x * self.velocity
+            self.rect.x = self.position.x
+            print(self.position.x)
             hits = self.getoverlaps()  
             for object in hits:
                 if hasattr(object, 'checkForCollision') and object.checkForCollision and self.checkForCollision:
