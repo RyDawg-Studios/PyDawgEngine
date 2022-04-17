@@ -1,5 +1,7 @@
 import math
 
+from pygame import Vector2
+
 def objectlookattarget(object, target):
     sx = object.rect.center[0] - target.rect.center[0]
     sy = object.rect.center[1] - target.rect.center[1]
@@ -21,7 +23,8 @@ def objectlookatposition(object, position=[0,0]):
 def getpositionlookatvector(object, target):
     d = objectlookatposition(object, target)
     r = math.radians(d)
-    return [math.cos(r), -math.sin(r)]
+    f = [round(math.cos(r), 3), -round(math.sin(r), 3)]
+    return Vector2(f)
 
 def getobjectlookatvector(object, target):
     d = objectlookattarget(object, target)
