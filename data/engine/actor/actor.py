@@ -11,7 +11,7 @@ class Actor(Object):
         self.collideInfo = {"Top": False, "Bottom": False, "Left": False, "Right": False, "Objects": []}
         self.collisionThreshHold = 2
         self.ticks = 0
-        self.movement=[0, 0]
+        self.movement=pygame.Vector2([0, 0])
         self.components = {}
 
         if not hasattr(self, 'position'):
