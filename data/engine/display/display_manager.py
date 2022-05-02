@@ -1,6 +1,9 @@
 import pygame
 import json
 
+from data.engine.actor.actor import Actor
+from data.topdownshooter.content.objects.weapon.bullets.bullet import Bullet
+
 
 class DisplayManager:
     def __init__(self, pde) -> None:
@@ -25,7 +28,7 @@ class DisplayManager:
 
         for level in self.pde.level_manager.levels.values():
             for object in list(level.objectManager.objects.values()):
-                if hasattr(object, "rect"):
+                if isinstance(object, Actor):
                     object.rect.centerx -= self.scroll[0]
                     object.rect.centery -= self.scroll[1]
 
