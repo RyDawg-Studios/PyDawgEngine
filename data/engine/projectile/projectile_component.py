@@ -19,10 +19,8 @@ class ProjectileComponent(Component):
 
     def travel(self):
         vel = self.updatevelocity()
-        self.position[0] += vel[0]
-        self.position[1] += vel[1] 
-        self.owner.rect.centerx = self.position[0]
-        self.owner.rect.centery = self.position[1]
+        self.owner.rect.centerx += vel[0]
+        self.owner.rect.centery += vel[1] 
 
 
     def updatevelocity(self):
