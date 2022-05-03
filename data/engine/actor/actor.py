@@ -110,37 +110,8 @@ class Actor(Object):
     def move(self, movement):
         self.movement = pygame.math.Vector2(self.movement)
         self.collideInfo = {"Top": False, "Bottom": False, "Left": False, "Right": False, "Objects": []}
-        if self.canMove:
-            self.rect.x += self.movement.x * self.velocity
-            hits = self.getoverlaps()  
-            for object in hits:
-                if hasattr(object, 'checkForCollision') and object.checkForCollision and self.checkForCollision:
-                    if object not in self.collideInfo["Objects"]:
-                        self.collideInfo["Objects"].append(object)
-                    if movement[0] > 0:
-                        self.rect.right = object.rect.left
-                        self.collideInfo["Right"] = True
-                        object.collide(self, "Left")
-                    elif movement[0] < 0:
-                        self.rect.left = object.rect.right
-                        self.collideInfo["Left"] = True
-                        object.collide(self, "Right")
-        if self.canMove:
-            self.rect.y += self.movement.y * self.velocity
-            hits = self.getoverlaps()  
-            for object in hits:
-                if hasattr(object, 'checkForCollision') and object.checkForCollision and self.checkForCollision:
-                    if object not in self.collideInfo["Objects"]:
-                        self.collideInfo["Objects"].append(object)
-                    if movement[1] > 0:
-                        self.rect.bottom = object.rect.top
-                        self.collideInfo["Bottom"] = True
-                        object.collide(self, "Top")
-                    elif movement[1] < 0:
-                        self.rect.top = object.rect.bottom
-                        self.collideInfo["Top"] = True
-                        object.collide(self, "Bottom")
-
+        self.checkXcollision(movement)
+        self.checkYcollision(movement)
 
 
 
@@ -168,3 +139,37 @@ class Actor(Object):
 
     def printDebugInfo(self):
         print(f"Name: {str(self)}\n   Position: {self.position}\n   Scale: {self.scale}\n   Rotation: {self.rotation}\n   Movement: {self.movement}\n   Overlap Info: {self.overlapInfo}\n   Collide Info: {self.collideInfo}\n   Components: {self.components.keys()}")
+
+    def checkXcollision(self, movement):
+        if self.canMove:
+            self.rect.x += self.movement.x * self.velocity
+            hits = self.getoverlaps()  
+            for object in hits:
+                if hasattr(object, 'checkForCollision') and object.checkForCollision and self.checkForCollision:
+                    if object not in self.collideInfo["Objects"]:
+                        self.collideInfo["Objects"].append(object)
+                    if movement[0] > 0:
+                        self.rect.right = object.rect.left
+                        self.collideInfo["Right"] = True
+                        object.collide(self, "Left")
+                    elif movement[0] < 0:
+                        self.rect.left = object.rect.right
+                        self.collideInfo["Left"] = True
+                        object.collide(self, "Right")
+
+    def checkYcollision(self, movement):
+        if self.canMove:
+            self.rect.y += self.movement.y * self.velocity
+            hits = self.getoverlaps()  
+            for object in hits:
+                if hasattr(object, 'checkForCollision') and object.checkForCollision and self.checkForCollision:
+                    if object not in self.collideInfo["Objects"]:
+                        self.collideInfo["Objects"].append(object)
+                    if movement[1] > 0:
+                        self.rect.bottom = object.rect.top
+                        self.collideInfo["Bottom"] = True
+                        object.collide(self, "Top")
+                    elif movement[1] < 0:
+                        self.rect.top = object.rect.bottom
+                        self.collideInfo["Top"] = True
+                        object.collide(self, "Bottom")
