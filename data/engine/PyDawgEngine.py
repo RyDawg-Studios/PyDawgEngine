@@ -4,23 +4,21 @@ from data.engine.event.event_manager import EventManager
 from data.engine.input.input_manager import InputManager
 from data.engine.level.level_manager import LevelManager
 from data.engine.mouse.mouse_manager import MouseManager
+from data.engine.networking.network import Network
+from data.engine.networking.network_manager import NetworkManager
 from data.engine.player.player_manger import PlayerManager
 from data.engine.cfg.config_manager import ConfigManager
 from data.engine.sprite.sprite_manager import SpriteManager
 from data.engine.debug.debugGame import DebugGame
+from data.engine.networking.network import Network
 from data.topdownshooter.TopDownShooter import ShooterGame
-
-
-
-
-
 
 class PyDawgEngine:
 
     def __init__(self) -> None:
 
         self.game = ShooterGame(pde=self)
-
+        
 
         self.event_manager = EventManager(pde=self)
         self.event_manager.active = True
@@ -46,6 +44,9 @@ class PyDawgEngine:
         self.display_manager = DisplayManager(pde=self)
         self.display_manager.active = True
 
+        self.network_manager = NetworkManager(pde=self)
+        self.network_manager.active = True
+
         self.active = False
 
         self.clock = pygame.time.Clock()
@@ -57,12 +58,12 @@ class PyDawgEngine:
         self.startengine()
 
     def startengine(self):
-        for man in [self.config_manager, self.input_manager, self.display_manager, self.event_manager, self.mouse_manager, self.level_manager, self.player_manager]:
+        for man in [self.config_manager, self.input_manager, self.display_manager, self.event_manager, self.mouse_manager, self.level_manager, self.player_manager, self.network_manager]:
             if man.active == False:
                 raise Exception(str(man) + " Was not active on engine start. Did you properly initialize it?")
             else: man.active == True
 
-        for man in [self.config_manager, self.input_manager, self.display_manager, self.event_manager, self.mouse_manager, self.level_manager, self.player_manager]:
+        for man in [self.config_manager, self.input_manager, self.display_manager, self.event_manager, self.mouse_manager, self.level_manager, self.player_manager, self.network_manager]:
             if man.active == False:
                 raise Exception(str(man) + " Was not active on engine start. Did you properly initialize it?")
             else: man.activate()
@@ -82,6 +83,7 @@ class PyDawgEngine:
         self.mouse_manager.update()
         self.level_manager.update()
         self.player_manager.update()
+        self.network_manager.update()
         self.game.update()
 
         self.dt = self.clock.tick(60) * 0.001 * self.targetFPS
