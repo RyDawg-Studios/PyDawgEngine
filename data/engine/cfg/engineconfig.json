@@ -6,7 +6,14 @@
         "icon": "r'data\\assets\\sprites\\me.png'",
         "fullscreen": "False",
         "hideMouseCursor": "False",
-        "debugMode": "True"
+        "debugMode": "True",
+        "network":
+        {
+            "connectToServer": true,
+            "address": "127.0.0.1"
+        }
         
+
+
     }
 }

@@ -7,8 +7,8 @@ class NetworkManager():
         self.pde = pde
         
     def activate(self):
-        self.network = Network(server="45.33.80.41")
-        self.startpos = self.network.getpos()
-
+        if self.pde.config_manager.config["config"]["network"]["connectToServer"]:
+            self.network = Network(server="127.0.0.1")
+        
     def update(self):
         return

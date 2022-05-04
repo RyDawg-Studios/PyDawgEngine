@@ -11,13 +11,12 @@ from data.engine.cfg.config_manager import ConfigManager
 from data.engine.sprite.sprite_manager import SpriteManager
 from data.engine.debug.debugGame import DebugGame
 from data.engine.networking.network import Network
-from data.topdownshooter.TopDownShooter import ShooterGame
 
 class PyDawgEngine:
 
     def __init__(self) -> None:
 
-        self.game = ShooterGame(pde=self)
+        self.game = DebugGame(pde=self)
         
 
         self.event_manager = EventManager(pde=self)

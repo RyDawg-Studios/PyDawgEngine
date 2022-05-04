@@ -10,6 +10,9 @@ class DebugController(PlayerController):
         if input == pygame.K_l:
             self.owner.pde.game == self.owner.pde.Leukosite(pde=self.pde)
 
+        if input == pygame.K_f:
+            self.owner.sendself()
+
 
 
         return super().on_input(input)

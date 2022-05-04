@@ -1,7 +1,7 @@
-from turtle import pos
 import pygame
 from data.engine.actor.actor import Actor
 from data.engine.ai.ai_component import AIComponent
+from data.engine.networking.replication_component import ReplicationComponent
 from data.engine.projectile.projectile_component import ProjectileComponent
 from data.engine.sprite.sprite_component import SpriteComponent
 from data.engine.debug.debugAI import debugAI
@@ -70,6 +70,7 @@ class TestActor(Actor):
         self.useCenterForPosition = True
         super().__init__(man, pde)
         self.components["Sprite"] = SpriteComponent(owner=self, sprite=r'data\assets\sprites\mariohitbox.png', layer=2)
+        self.components["Rep"] = ReplicationComponent(owner=self)
 
     def takedamage(self, obj):
         return True
@@ -92,6 +93,8 @@ class TestPlayer(Actor):
         self.components["PlayerController"] = DebugController(owner=self)
         self.sprite = self.man.add_object(TestSpriteActor(man=man, pde=pde, position=self.position, scale=[32, 32]))
 
+        self.replicate = True
+        self.replicateInfo = {'position': self.position, 'sprite': r'data\assets\sprites\me.png'}
 
 
     def update(self):

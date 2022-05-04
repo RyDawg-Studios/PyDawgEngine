@@ -17,10 +17,17 @@ class Network():
         except:
             print("Failed to connect")
 
-    def send(self, data=""):
+    def sendstring(self, data=""):
         try:
             self.client.send(str.encode(data))
             return self.client.recv(2048).decode()
+        except socket.error as error:
+            print(error)
+
+    def send(self, data):
+        try:
+            self.client.send(pickle.dumps(data))
+            return pickle.loads(self.client.recv(2048))
         except socket.error as error:
             print(error)
         
