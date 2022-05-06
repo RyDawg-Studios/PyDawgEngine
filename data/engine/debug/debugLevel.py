@@ -10,10 +10,8 @@ class DebugLevel(Level):
         self.changebackground(r'data\assets\sprites\bg.png')
 
 
-        p = self.objectManager.add_object(TestPlayer(man=self.objectManager, pde=pde, position=[200, 200], scale=[32, 32]))
-        self.objectManager.add_object(TestActor(man=self.objectManager, pde=pde, position=[125, 125]))
-        self.objectManager.add_object(TestActor(man=self.objectManager, pde=pde, position=[100, 100]))
-        self.objectManager.add_object(SpinProjectile(man=self.objectManager, pde=pde, position=[200, 200], player=p))
+        p = self.objectManager.add_object(TestPlayer(man=self.objectManager, pde=pde, position=[240, 320], scale=[32, 32]))
+
 
 
 

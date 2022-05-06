@@ -8,14 +8,19 @@ class Network():
         self.port = port
         self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.address = (self.server, self.port)
-        self.pos = self.connect()
+        print(self.connect())
 
-    def connect(self):
+    def connect(self, name='RyDawgE'):
         try:
             self.client.connect(self.address)
-            return self.client.recv(2048).decode()
-        except:
-            print("Failed to connect")
+            self.client.send(str.encode(name))
+            val = self.client.recv(1024)
+            return (val.decode('utf-8'))
+        except Exception as e:
+            print(e)
+
+    def disconnect(self):
+        self.client.close()
 
     def sendstring(self, data=""):
         try:
@@ -33,3 +38,6 @@ class Network():
         
     def getpos(self):
         return self.pos
+
+    def update(self):
+        print(self.client.recv(4096).decode('utf-8'))

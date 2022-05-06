@@ -1,4 +1,5 @@
 import pygame
+import _thread as threading
 from data.engine.display.display_manager import DisplayManager
 from data.engine.event.event_manager import EventManager
 from data.engine.input.input_manager import InputManager
@@ -45,6 +46,8 @@ class PyDawgEngine:
 
         self.network_manager = NetworkManager(pde=self)
         self.network_manager.active = True
+        threading.start_new_thread(self.network_manager.update, ())
+
 
         self.active = False
 
@@ -57,12 +60,12 @@ class PyDawgEngine:
         self.startengine()
 
     def startengine(self):
-        for man in [self.config_manager, self.input_manager, self.display_manager, self.event_manager, self.mouse_manager, self.level_manager, self.player_manager, self.network_manager]:
+        for man in [self.config_manager, self.input_manager, self.display_manager, self.event_manager, self.mouse_manager, self.level_manager, self.player_manager]:
             if man.active == False:
                 raise Exception(str(man) + " Was not active on engine start. Did you properly initialize it?")
             else: man.active == True
 
-        for man in [self.config_manager, self.input_manager, self.display_manager, self.event_manager, self.mouse_manager, self.level_manager, self.player_manager, self.network_manager]:
+        for man in [self.config_manager, self.input_manager, self.display_manager, self.event_manager, self.mouse_manager, self.level_manager, self.player_manager]:
             if man.active == False:
                 raise Exception(str(man) + " Was not active on engine start. Did you properly initialize it?")
             else: man.activate()
@@ -82,7 +85,6 @@ class PyDawgEngine:
         self.mouse_manager.update()
         self.level_manager.update()
         self.player_manager.update()
-        self.network_manager.update()
         self.game.update()
 
         self.dt = self.clock.tick(60) * 0.001 * self.targetFPS

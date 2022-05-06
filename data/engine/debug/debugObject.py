@@ -107,6 +107,13 @@ class TestPlayer(Actor):
     def overlap(self, obj):
         return super().overlap(obj)
 
+    def serialize(self):
+        data = bytes(str(self.position), 'utf-8')
+        return super().serialize(data)
+
+    def sendself(self):
+        print(self.serialize())
+
 
 
 
