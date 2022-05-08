@@ -1,4 +1,5 @@
 from data.engine.component.component import Component
+import struct
 
 class ReplicationComponent(Component):
     def __init__(self, owner):
@@ -7,7 +8,6 @@ class ReplicationComponent(Component):
         super().__init__(owner)
 
     def update(self):
-        self.pde.network_manager.network.send({self.owner.man.objects[str(self.owner)]: self.owner})
         return super().update()
     
     def addReplicativeVariable(self, name):

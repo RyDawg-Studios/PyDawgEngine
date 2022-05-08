@@ -1,4 +1,5 @@
 import pygame 
+import struct
 from data.engine.PyDawgEngine import PyDawgEngine
 
 #Initialize Important Pygame Libs
