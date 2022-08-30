@@ -8,7 +8,10 @@ class NetworkManager():
         
         if self.pde.config_manager.config["config"]["network"]["connectToServer"]:
             self.network = Network(server="127.0.0.1")
+        else:
+            self.network = None
         
     def update(self):
         while self.active:
-            self.network.update()
+            if self.network is not None:
+                self.network.update()

@@ -11,6 +11,7 @@ class Sprite(pygame.sprite.Sprite):
         self.sprite = sprite
         self.scale = scale
         self.rotation = rotation
+        self.opacity = 256
 
         #Use sprite from cache if already loaded, otherwise load it and add it to cache
         if self.sprite in self.parent.pde.sprite_manager.sprites:
@@ -26,6 +27,8 @@ class Sprite(pygame.sprite.Sprite):
         self.ogimage = self.image
 
         self.rect = self.ogimage.get_rect()
+
+        self.updatetransform()
  
         #add sprite to sprite layer
         parent.pde.display_manager.group.add(self)
@@ -35,17 +38,20 @@ class Sprite(pygame.sprite.Sprite):
         img = pygame.transform.scale(self.ogimage, self.scale)
         img = pygame.transform.rotate(img, self.rotation)
         self.image = img
+        self.image.set_alpha(self.opacity)
         self.rect = self.image.get_rect()
         self.rect.center = self.parent.rect.center
 
     def update(self):
-        self.updatetransform()
-        super().update()
+        if (self.parent.position[0] >= 0 and self.parent.position[1] >=0) or (self.parent.position[0] <= 720 and self.parent.position[1] <= 600):
+            self.updatetransform()
+        return super().update()
 
     
     def deconstruct(self):
+        self.parent.pde.display_manager.group.remove(self)
         self.kill()
-        del self
+        return
 
 
 
@@ -53,19 +59,16 @@ class Sprite(pygame.sprite.Sprite):
 class SpriteComponent(Component):
     def __init__(self, owner, sprite, layer=0, **kwargs) -> None:
         super().__init__(owner, **kwargs)
-
         self.path = sprite
 
         if self.owner.useSpriteRectForCollision:
             self.owner.rect = self.sprite.image.get_rect()
 
-
         self.sprite = Sprite(parent=owner, sprite=sprite, layer=layer, rotation=self.owner.rotation, scale=self.owner.scale)
 
-
-    
     def update(self):
         self.sprite.update()
+        super().update()
 
     def deconstruct(self):
         self.sprite.deconstruct()

@@ -3,7 +3,10 @@ class Component:
         self.owner = owner
 
     def update(self):
-        pass
+        return
 
     def deconstruct(self):
-        del self
+        return
+
+    def checkForOwner(self):
+        return

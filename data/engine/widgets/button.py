@@ -47,7 +47,6 @@ class Button(Component):
         if self.bind != None:
             if mbid == self.bindid:
                 self.bind()
-
         pass
 
     def onhovered(self):

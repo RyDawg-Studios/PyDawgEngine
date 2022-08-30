@@ -7,4 +7,6 @@ class AIState():
     def update(self):
         pass
 
+    def deconstruct(self):
+        return
     

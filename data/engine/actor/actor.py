@@ -1,4 +1,4 @@
-from shutil import move
+import gc
 import pygame
 from data.engine.object.object import Object
 from data.engine.widgets.button import Button
@@ -65,56 +65,50 @@ class Actor(Object):
 
         super().__init__(man, pde)
 
-        if eval(self.pde.config_manager.config["config"]["debugMode"]):
+        if self.pde.config_manager.config["config"]["debugMode"]:
             self.components["DebugButton"] = Button(owner=self, bind=self.printDebugInfo)
 
 
 
     def update(self):
+        super().update()
         self.ticks += 1    
         self.checklifetime() 
         self.getoverlaps()
         self.move(self.movement)
-        super().update()
-
-
 
     def getoverlaps(self):
         hits = []
         if self.checkForOverlap:
-            for level in self.pde.level_manager.levels.values():
-                for object in list(level.objectManager.objects.values()):
-                    if hasattr(object, 'checkForOverlap'):
-                        if self.checkForOverlap == True:
-                            if self.collideRect.colliderect(object.collideRect) and object != self:
-                                hits.append(object)
-                                object.whileoverlap(self)
-                                self.whileoverlap(object)
-                                object.overlap(self)
+            for object in list(self.pde.level_manager.level.objectManager.objects):
+                if isinstance(object, Actor):
+                    if self.checkForOverlap and object.checkForOverlap:
+                        if self.collideRect.colliderect(object.collideRect) and object != self and not object.decompose:
+                            if object not in self.overlapInfo["Objects"]:
                                 self.overlap(object)
+                            self.whileoverlap(object)
+                            hits.append(object)
         self.overlapInfo["Objects"] = hits
         return hits
 
     def checkoverlaps(self):
-        pass
+        return
 
     def overlap(self, obj):
-        pass
+        return
 
     def whileoverlap(self, obj):
-        pass
+        return
 
     def collide(self, obj, side):
-        pass
+        return
 
     def move(self, movement):
         self.movement = pygame.math.Vector2(self.movement)
         self.collideInfo = {"Top": False, "Bottom": False, "Left": False, "Right": False, "Objects": []}
+        
         self.checkXcollision(movement)
         self.checkYcollision(movement)
-
-
-
 
         self.position[0] = self.rect.center[0]
         self.position[1] = self.rect.center[1]
@@ -130,7 +124,11 @@ class Actor(Object):
 
     def checklifetime(self):
         if self.ticks >= self.lifetime and self.lifetime != -1:
+            self.expire()
             self.deconstruct()
+
+    def expire(self): #Runs before deconstruct.
+        return
 
     def scrollcameratocenterx(self):
         self.pde.display_manager.scroll[0] = (self.rect.centerx - 320)
@@ -142,10 +140,10 @@ class Actor(Object):
 
     def checkXcollision(self, movement):
         if self.canMove:
-            self.rect.x += self.movement.x * self.velocity
+            self.rect.x += self.movement.x
             hits = self.getoverlaps()  
             for object in hits:
-                if hasattr(object, 'checkForCollision') and object.checkForCollision and self.checkForCollision:
+                if isinstance(object, Actor) and object.checkForCollision and self.checkForCollision:
                     if object not in self.collideInfo["Objects"]:
                         self.collideInfo["Objects"].append(object)
                     if movement[0] > 0:
@@ -159,10 +157,10 @@ class Actor(Object):
 
     def checkYcollision(self, movement):
         if self.canMove:
-            self.rect.y += self.movement.y * self.velocity
+            self.rect.y += self.movement.y
             hits = self.getoverlaps()  
             for object in hits:
-                if hasattr(object, 'checkForCollision') and object.checkForCollision and self.checkForCollision:
+                if isinstance(object, Actor) and object.checkForCollision and self.checkForCollision:
                     if object not in self.collideInfo["Objects"]:
                         self.collideInfo["Objects"].append(object)
                     if movement[1] > 0:

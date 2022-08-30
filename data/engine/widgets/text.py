@@ -8,6 +8,7 @@ class Sprite(pygame.sprite.Sprite):
 
         self.parent = parent
         self.layer = layer
+        self.opacity = 255
 
         self.text = text
         self.font = font
@@ -15,25 +16,31 @@ class Sprite(pygame.sprite.Sprite):
 
         self.scale = scale
         self.rotation = rotation
+        
 
-        self.image = self.font.render(str(self.parent.__getattribute__(self.text)), True, self.color)
-        #apply approprite sprite transformation
-        self.image = pygame.transform.scale(self.image, (self.scale[0],self.scale[1]))
-        self.image = pygame.transform.rotate(self.image, self.rotation)
+        self.image = self.font.render(self.text, True, self.color)
+        self.ogimage = self.image
 
-        self.rect = self.image.get_rect()
-        self.rect.x, self.rect.y = self.parent.position[0], self.parent.position[1]
+        self.rect = self.ogimage.get_rect()
+
+        self.updatetransform()
  
         #add sprite to sprite layer
         parent.pde.display_manager.group.add(self)
 
     def update(self):
-        self.image = self.font.render(str(self.parent.__getattribute__(self.text)), True, self.color)
-        self.image = pygame.transform.scale(self.image, (self.scale[0],self.scale[1]))
-        self.image = pygame.transform.rotate(self.image, self.rotation)
-        self.rect = self.image.get_rect()
-        self.rect.x, self.rect.y = self.parent.rect.x, self.parent.rect.y
+        if (self.parent.position[0] >= 0 and self.parent.position[1] >=0) or (self.parent.position[0] <= 720 and self.parent.position[1] <= 600):
+            self.updatetransform()
         super().update()
+
+    def updatetransform(self):
+        img = self.font.render(str(self.text), True, self.color)
+        img = pygame.transform.scale(img, self.scale)
+        img = pygame.transform.rotate(img, self.rotation)
+        self.image = img
+        self.image.set_alpha(self.opacity)
+        self.rect = self.image.get_rect()
+        self.rect.center = self.parent.rect.center
 
     
     def deconstruct(self):
@@ -46,11 +53,7 @@ class Sprite(pygame.sprite.Sprite):
 class TextComponent(Component):
     def __init__(self, owner, font, layer=0, text='textVar', color=(0, 0, 0), **kwargs) -> None:
         super().__init__(owner, **kwargs)
-
-
-        self.sprite = Sprite(parent=owner, layer=layer, rotation=self.owner.spriteRotation, scale=self.owner.spriteScale, text=text, font=font, color=color)
-
-
+        self.sprite = Sprite(parent=owner, layer=layer, rotation=self.owner.rotation, scale=self.owner.scale, text=text, font=font, color=color)
     
     def update(self):
         self.sprite.update()

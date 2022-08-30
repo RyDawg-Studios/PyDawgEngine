@@ -3,7 +3,11 @@ class Game:
         self.pde = pde
 
     def activate(self):
-        pass
+        return
+
+    def clearObjectManager(self):
+        if self.pde.level_manager.level is not None:
+            self.pde.level_manager.clearlevel()
 
     def update(self):
         pass

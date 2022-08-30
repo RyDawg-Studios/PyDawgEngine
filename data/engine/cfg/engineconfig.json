@@ -2,15 +2,15 @@
     "config":
     {
         "caption": "PyDawgEngine",
-        "dimensions": "(640, 480)",
+        "dimensions": [640, 480],
         "icon": "r'data\\assets\\sprites\\me.png'",
-        "fullscreen": "False",
-        "hideMouseCursor": "False",
-        "debugMode": "True",
+        "fullscreen": false,
+        "hideMouseCursor": false,
+        "debugMode": false,
         "network":
         {
-            "connectToServer": true,
-            "address": "127.0.0.1"
+            "connectToServer": false,
+            "address": "69.420.1337.515"
         }
         
 

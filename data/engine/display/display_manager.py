@@ -22,12 +22,12 @@ class DisplayManager:
         else:
             self.screen.blit(self.bg, (0, 0))
 
-
-        for level in self.pde.level_manager.levels.values():
-            for object in list(level.objectManager.objects.values()):
+        if self.pde.level_manager.level is not None:
+            for object in list(self.pde.level_manager.level.objectManager.objects):
                 if hasattr(object, "rect"):
-                    object.rect.centerx -= self.scroll[0]
-                    object.rect.centery -= self.scroll[1]
+                    if object.scroll == True:
+                        object.rect.centerx -= self.scroll[0]
+                        object.rect.centery -= self.scroll[1]
 
         self.group.update()
         self.group.draw(self.screen)
@@ -35,7 +35,7 @@ class DisplayManager:
         pygame.display.update()
 
     def configurewindow(self):
-        if eval(self.pde.config_manager.config["config"]["fullscreen"]):
+        if self.pde.config_manager.config["config"]["fullscreen"]:
             self.screen = pygame.display.set_mode((640, 480), pygame.FULLSCREEN)
         else:
             self.screen = pygame.display.set_mode((640, 480))

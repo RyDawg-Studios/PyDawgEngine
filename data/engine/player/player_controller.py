@@ -4,6 +4,8 @@ class PlayerController(Component):
     def __init__(self, owner, **kwargs) -> None:
         super().__init__(owner, **kwargs)
         self.inpman = self.owner.pde.input_manager
+
+        
         
         if len(self.inpman.joysticks) > 0:
             self.resetPos = False
@@ -32,5 +34,5 @@ class PlayerController(Component):
         pass
 
     def deconstruct(self):
-        self.owner.pde.player_manager.player_controllers.remove(self)
+#        self.owner.pde.player_manager.player_controllers.remove(self)
         return super().deconstruct()
