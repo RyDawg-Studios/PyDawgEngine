@@ -52,7 +52,7 @@ class DawgTalePlayer(Actor):
             if not self.dead:
                 obj.deconstruct()
                 self.takedamage(1)
-        if obj.__class__ == CovidBullet or obj.__class__ == CancerBullet:
+        if isinstance(obj, CovidBullet) or isinstance(obj, CancerBullet):
             if obj.owner != self:
                 obj.deconstruct()
                 self.takedamage(1)

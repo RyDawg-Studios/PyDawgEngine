@@ -4,7 +4,7 @@ from data.engine.sprite.sprite_component import SpriteComponent
 import math
 
 class CancerBullet(Actor):
-    def __init__(self, man, pde, owner, position=[0,0], scale=[16,16], speed=[1,1], rotation=0, checkForCollision=False, checkForOverlap=False, lifetime=150, piercing = False):
+    def __init__(self, man, pde, owner, position=[0,0], scale=[16,16], speed=[1,1], rotation=0, checkForCollision=False, checkForOverlap=True, lifetime=150, piercing = False):
         self.useCenterForPosition = True
         self.position=position
         self.scale=scale
@@ -19,6 +19,7 @@ class CancerBullet(Actor):
         self.spriteScale = self.scale
 
         super().__init__(man, pde)
+        self.checkForOverlap = True
 
         if not self.piercing:
             self.components["Sprite"] = SpriteComponent(owner=self, sprite=r'data\game\assets\blackbullet.png', layer=1)

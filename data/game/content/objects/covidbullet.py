@@ -20,6 +20,8 @@ class CovidBullet(Actor):
 
         super().__init__(man, pde)
 
+        self.checkForOverlap = True
+
         if not self.piercing:
             self.components["Sprite"] = SpriteComponent(owner=self, sprite=r'data\game\assets\covidshot.png', layer=1)
         else:
