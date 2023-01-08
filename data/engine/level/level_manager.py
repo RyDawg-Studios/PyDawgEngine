@@ -20,8 +20,7 @@ class LevelManager:
         level.active = active
 
     def update(self):
-        if self.level is not None:
-            self.level.update()
+        self.level.update()
         return
 
     def activate(self):

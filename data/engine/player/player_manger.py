@@ -6,10 +6,15 @@ class PlayerManager():
         self.active = False
         self.pde = pde
         self.player_controllers = []
-
         
     def update(self):
-        pass
+        return
         
     def activate(self):
-        pass
+        return
+
+    def clear(self):
+        for pc in self.player_controllers:
+            pc.deconstruct()
+            pc = None
+        return

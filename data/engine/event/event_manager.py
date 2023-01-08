@@ -15,6 +15,7 @@ class EventManager:
                 sys.exit()
             else:
                 self.pde.input_manager.manage_inputs(event)
+        return
 
     def activate(self):
-        pass
+        return

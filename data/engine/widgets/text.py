@@ -34,7 +34,7 @@ class Sprite(pygame.sprite.Sprite):
         super().update()
 
     def updatetransform(self):
-        img = self.font.render(str(self.text), True, self.color)
+        img = self.font.render(self.text, True, self.color)
         img = pygame.transform.scale(img, self.scale)
         img = pygame.transform.rotate(img, self.rotation)
         self.image = img

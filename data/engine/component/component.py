@@ -6,6 +6,7 @@ class Component:
         return
 
     def deconstruct(self):
+        self.owner = None
         return
 
     def checkForOwner(self):

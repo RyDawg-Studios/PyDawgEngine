@@ -9,7 +9,9 @@ class ObjectManager:
         self.clearing = False
 
     def add_object(self, obj):
-        self.objects.append(obj)
+        if obj not in self.objects:
+            self.objects.append(obj)
+            obj.construct()
         return obj
 
     def remove_object(self, obj, outer=None):
@@ -17,6 +19,7 @@ class ObjectManager:
             self.objects.remove(obj)
         else:
             print(f"ObjectManager.remove_object failed to remove {obj.__class__.__name__} because it was not found. Outer was {outer}")
+
 
     def update(self):
         for obj in list(self.objects):
@@ -33,10 +36,16 @@ class ObjectManager:
             
         self.objects = []
 
-
-
+    def printobjects(self):
+        print("----------------< Objects >----------------")
+        i=0
+        for o in self.objects:
+            print(o)
+            i += 1
+        print(f"Count: {i}")
+        
     def getPlayers(self):
-        for obj in self.objects:
+        for obj in list(self.objects.values()):
             for comp in obj.components:
                 if comp == "PlayerController":
                     return obj

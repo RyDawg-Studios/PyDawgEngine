@@ -13,10 +13,11 @@ class PlayerController(Component):
             self.resetPos = True
 
     def update(self):
-        if self not in self.owner.pde.player_manager.player_controllers:
-            self.owner.pde.player_manager.player_controllers.append(self)
-        self.manage_input()
-        return super().update()
+        if self.owner is not None:
+            if self not in self.owner.pde.player_manager.player_controllers:
+                self.owner.pde.player_manager.player_controllers.append(self)
+            self.manage_input()
+        super().update()
 
     def manage_input(self):
         pass
@@ -34,5 +35,6 @@ class PlayerController(Component):
         pass
 
     def deconstruct(self):
-#        self.owner.pde.player_manager.player_controllers.remove(self)
+        if self in self.owner.pde.player_manager.player_controllers:
+            self.owner.pde.player_manager.player_controllers.remove(self)
         return super().deconstruct()

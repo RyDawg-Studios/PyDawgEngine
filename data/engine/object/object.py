@@ -11,7 +11,6 @@ class Object:
         self.pausable = True
         self.paused = False
         self.decompose = False
-        self.construct()
 
 
     def construct(self):

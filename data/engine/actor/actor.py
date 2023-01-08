@@ -2,82 +2,75 @@ import gc
 import pygame
 from data.engine.object.object import Object
 from data.engine.widgets.button import Button
+from data.engine.sprite.sprite_component import SpriteComponent
+
 
 
 class Actor(Object):
-    def __init__(self, man, pde):
+    def __init__(self, man, pde, position=[0,0], scale=[32,32], checkForOverlap=True, checkForCollision=True, useCenterForPosition=False, lifetime=-1):
+        super().__init__(man, pde)
+
+        # -----< Actor Info >----- #
+
+        self.name = str(self)
+        self.components = {}
+
+        # -----< Transform Info >----- #
+
+        self.position = position
+        self.scale = scale
+        self.rotation = 0
         self.canMove = True
+        self.movement=pygame.Vector2([0, 0])
+        self.useCenterForPosition = useCenterForPosition
+
+        self.direction = [0,0]
+        self.speed = 3
+        self.velocity = 1
+
+        # -----< Lifetime Info >----- #
+
+        self.ticks = 0
+        self.lifetime = lifetime
+
+        # -----< Collision Info >----- #
+
         self.overlapInfo = {"Overlapping" : False, "Objects" : [], "Count": 0}
         self.collideInfo = {"Top": False, "Bottom": False, "Left": False, "Right": False, "Objects": []}
         self.collisionThreshHold = 2
-        self.ticks = 0
-        self.movement=pygame.Vector2([0, 0])
-        self.components = {}
+        self.checkForOverlap = checkForOverlap
+        self.checkForCollision = checkForCollision
+        self.useSpriteRectForCollision = False
 
-        if not hasattr(self, 'position'):
-            self.position = [0, 0]
-        self.position = pygame.Vector2(self.position)
-
-        if not hasattr(self, 'scale'):
-            self.scale = [32, 32]
-
-        if not hasattr(self, 'rotation'):
-            self.rotation = 0
-
-        if not hasattr(self, 'name'):
-            self.name = str(self)
-        
-        if not hasattr(self, 'maxSpeed'):
-            self.maxSpeed = [2,2]
-
-        if not hasattr(self, 'checkForOverlap'):
-            self.checkForOverlap = True
-
-        if not hasattr(self, 'checkForCollision'):
-            self.checkForCollision = True
-
-        if not hasattr(self, 'lifetime'):
-            self.lifetime = -1
-
-        if not hasattr(self, 'speed'):
-            self.speed = [0,0]
-
-        if not hasattr(self, 'direction'):
-            self.direction = [0,0]
-
-        if not hasattr(self, 'velocity'):
-            self.velocity = 1
-
-        if not hasattr(self, 'useSriteRectForCollision'):
-            self.useSpriteRectForCollision = False
-
-        if not hasattr(self, 'useCenterForPosition'):
-            self.useCenterForPosition = False
-
-        if not hasattr(self, 'rect'):
-            self.rect = pygame.rect.Rect(self.position[0], self.position[1], self.scale[0], self.scale[1])
-            if self.useCenterForPosition:
-                self.rect.center = [self.position[0], self.position[1]]
-
-        if not hasattr(self, 'collideRect'):
-            self.collideRect = self.rect
-
-
-        super().__init__(man, pde)
+        # -----< Debug Info >----- #
 
         if self.pde.config_manager.config["config"]["debugMode"]:
             self.components["DebugButton"] = Button(owner=self, bind=self.printDebugInfo)
 
+    def construct(self):
+        super().construct()
+        self.position = pygame.Vector2(self.position)
+        self.rect = pygame.rect.Rect(self.position[0], self.position[1], self.scale[0], self.scale[1])
+
+        if self.pde.config_manager.config["config"]["debugMode"]:
+            self.components["DebugSprite"] = SpriteComponent(owner=self, sprite=r'data\assets\sprites\mariohitbox.png', layer=4)
+
+        if self.useCenterForPosition:
+            self.rect.center = [self.position[0], self.position[1]]
+
+        self.collideRect = self.rect
+        return
+
 
 
     def update(self):
-        super().update()
         self.ticks += 1    
         self.checklifetime() 
-        self.getoverlaps()
         self.move(self.movement)
+        return super().update()
 
     def getoverlaps(self):
+        self.overlapInfo["Objects"] = []
         hits = []
         if self.checkForOverlap:
             for object in list(self.pde.level_manager.level.objectManager.objects):
@@ -88,6 +81,8 @@ class Actor(Object):
                                 self.overlap(object)
                             self.whileoverlap(object)
                             hits.append(object)
+                if object not in list(self.pde.level_manager.level.objectManager.objects) and object in self.overlapInfo["Objects"]:
+                    self.overlapInfo["Objects"].remove(object)
         self.overlapInfo["Objects"] = hits
         return hits
 
@@ -131,9 +126,9 @@ class Actor(Object):
         return
 
     def scrollcameratocenterx(self):
-        self.pde.display_manager.scroll[0] = (self.rect.centerx - 320)
+        self.pde.display_manager.scroll[0] = (self.rect.centerx - self.pde.config_manager.config["config"]["dimensions"][0]/2)
     def scrollcameratocentery(self):
-        self.pde.display_manager.scroll[1] = (self.rect.centery - 240)
+        self.pde.display_manager.scroll[1] = (self.rect.centery - self.pde.config_manager.config["config"]["dimensions"][1]/2)
 
     def printDebugInfo(self):
         print(f"Name: {str(self)}\n   Position: {self.position}\n   Scale: {self.scale}\n   Rotation: {self.rotation}\n   Movement: {self.movement}\n   Overlap Info: {self.overlapInfo}\n   Collide Info: {self.collideInfo}\n   Components: {self.components.keys()}")
@@ -171,3 +166,7 @@ class Actor(Object):
                         self.rect.top = object.rect.bottom
                         self.collideInfo["Top"] = True
                         object.collide(self, "Bottom")
+
+    def deconstruct(self, outer=None):
+        self.collideInfo["Objects"] = []
+        return super().deconstruct(outer)
