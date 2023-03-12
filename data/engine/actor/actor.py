@@ -14,6 +14,7 @@ class Actor(Object):
 
         self.name = str(self)
         self.components = {}
+        self.quad = [0, 0]
 
         # -----< Transform Info >----- #
 
@@ -21,7 +22,7 @@ class Actor(Object):
         self.scale = scale
         self.rotation = 0
         self.canMove = True
-        self.movement=pygame.Vector2([0, 0])
+        self.movement = pygame.Vector2([0, 0])
         self.useCenterForPosition = useCenterForPosition
 
         self.direction = [0,0]
@@ -61,19 +62,25 @@ class Actor(Object):
         self.collideRect = self.rect
         return
 
-
-
     def update(self):
+        super().update()
         self.ticks += 1    
         self.checklifetime() 
         self.move(self.movement)
-        return super().update()
 
     def getoverlaps(self):
         self.overlapInfo["Objects"] = []
         hits = []
+        objects = []
+        
+        for y in [-1,0 , 1]:
+            for x in [-1, 0, 1]:
+                objs = self.man.quadtree.getQuad(abs(self.quad[0]+x), abs(self.quad[1]+y))
+                if objs is not None:
+                    objects += objs.particles
+            
         if self.checkForOverlap:
-            for object in list(self.pde.level_manager.level.objectManager.objects):
+            for object in objects:
                 if isinstance(object, Actor):
                     if self.checkForOverlap and object.checkForOverlap:
                         if self.collideRect.colliderect(object.collideRect) and object != self and not object.decompose:
@@ -81,7 +88,7 @@ class Actor(Object):
                                 self.overlap(object)
                             self.whileoverlap(object)
                             hits.append(object)
-                if object not in list(self.pde.level_manager.level.objectManager.objects) and object in self.overlapInfo["Objects"]:
+                if object not in objects and object in self.overlapInfo["Objects"]:
                     self.overlapInfo["Objects"].remove(object)
         self.overlapInfo["Objects"] = hits
         return hits
@@ -109,13 +116,6 @@ class Actor(Object):
         self.position[1] = self.rect.center[1]
         self.scale[0] = self.rect.size[0]
         self.scale[1] = self.rect.size[1]
-
-        if self.movement[0] < 0:
-            self.direction = -1
-
-        elif self.movement[0] > 0:
-            self.direction = 1
-
 
     def checklifetime(self):
         if self.ticks >= self.lifetime and self.lifetime != -1:

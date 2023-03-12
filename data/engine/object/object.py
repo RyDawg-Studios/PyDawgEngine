@@ -12,6 +12,7 @@ class Object:
         self.paused = False
         self.decompose = False
 
+        self.quadtree = None
 
     def construct(self):
         return

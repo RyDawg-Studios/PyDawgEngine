@@ -1,5 +1,8 @@
 import pygame
 
+from data.engine.quadtree.Quadtree import QuadTree
+from data.engine.quadtree.range import Rectangle
+
 
 class ObjectManager:
 
@@ -8,33 +11,47 @@ class ObjectManager:
         self.pde = pde
         self.clearing = False
 
+        self.quadsize = 16
+
+        self.quadtree = QuadTree(self.quadsize, Rectangle(pygame.Vector2(0, 0), pygame.Vector2(self.pde.config_manager.config["config"]["dimensions"])), pde=self.pde)
+
     def add_object(self, obj):
         if obj not in self.objects:
             self.objects.append(obj)
             obj.construct()
+
         return obj
 
     def remove_object(self, obj, outer=None):
         if obj in self.objects:
             self.objects.remove(obj)
+            return True
         else:
-            print(f"ObjectManager.remove_object failed to remove {obj.__class__.__name__} because it was not found. Outer was {outer}")
-
+            return False
 
     def update(self):
+        self.quadtree = QuadTree(self.quadsize, Rectangle(pygame.Vector2(0, 0), pygame.Vector2(self.pde.config_manager.config["config"]["dimensions"])), pde=self.pde)
+        for obj in list(self.objects):
+            self.quadtree.insert(obj)
+            
         for obj in list(self.objects):
             if not obj.paused:
                 obj.update()
                 for component in list(obj.components.values()):
                     component.update()
-            #if hasattr(obj, 'owner'):
-                #print(f'Object {obj.__class__.__name__} Owner {obj.owner.__class__.__name__}')
+
+
+        if self.pde.config_manager.config["config"]["debugMode"]:
+            self.quadtree.Show(screen=self.pde.display_manager.screen)
 
     def clear(self):
+
         for obj in self.objects:
-            obj.queuedeconstruction()
+            obj.deconstruct()
             
         self.objects = []
+
+        self.quadtree = QuadTree(self.quadsize, Rectangle(pygame.Vector2(0, 0), pygame.Vector2(self.pde.config_manager.config["config"]["dimensions"])), pde=self.pde)
 
     def printobjects(self):
         print("----------------< Objects >----------------")

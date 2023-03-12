@@ -16,11 +16,14 @@ from data.engine.sprite.sprite_component import SpriteComponent
 
 class TestSpriteActor(Actor):
     def __init__(self, man, pde, position=[0,0], scale=[32, 32]):
+        super().__init__(man, pde)
         self.checkForCollision = False
         self.checkForOverlap = False
         self.position = position
         self.scale = scale
-        super().__init__(man, pde)
+
+    def construct(self):
+        super().construct()
         self.components["Sprite"] = SpriteComponent(owner=self, sprite=r'data\assets\sprites\me.png', layer=2)
 
         self.components["Anim"] = AnimManager(owner=self, sprite=self.components["Sprite"])
@@ -32,10 +35,10 @@ class TestSpriteActor(Actor):
         self.components["Anim"].addAnimation(name='idleleft', anim=r'data\assets\anims\idleleft', speed=0.2, set=False, stopFrame=-1)
 
     def update(self):
-        if self.speed[0] > 0:
+        if self.movement[0] > 0:
             self.components["Anim"].setAnimState(state='runright')
 
-        elif self.speed[0] < 0:
+        elif self.movement[0] < 0:
             self.components["Anim"].setAnimState(state='runleft')
 
         else:
@@ -44,10 +47,10 @@ class TestSpriteActor(Actor):
             if self.direction == -1:
                 self.components["Anim"].setAnimState(state='idleleft')
 
-        if self.speed[0] < 0:
+        if self.movement[0] < 0:
             self.spriteScale[0] *= -1
 
-        elif self.speed[0] > 0:
+        elif self.movement[0] > 0:
             self.spriteScale[0] = abs(self.spriteScale[0])
 
         #self.components["Sprite"].sprite.rotation += 1
@@ -61,6 +64,7 @@ class TestObject(Object):
 
 class TestActor(Actor):
     def __init__(self, man, pde, position=[50, 50], scale=[32, 32]):
+        super().__init__(man, pde)
         self.checkForOverlap = True
         self.checkForCollision = True
         self.position = position
@@ -68,7 +72,9 @@ class TestActor(Actor):
         self.direction = 1
         self.hp = 100
         self.useCenterForPosition = True
-        super().__init__(man, pde)
+    
+    def construct(self):
+        super().construct()
         self.components["Sprite"] = SpriteComponent(owner=self, sprite=r'data\assets\sprites\mariohitbox.png', layer=2)
         self.components["Rep"] = ReplicationComponent(owner=self)
 
@@ -81,6 +87,7 @@ class TestActor(Actor):
 
 class TestPlayer(Actor):
     def __init__(self, man, pde, position=[50, 50], scale=[18, 30]):
+        super().__init__(man, pde)
 
         self.position = position
         self.scale = scale
@@ -88,14 +95,15 @@ class TestPlayer(Actor):
 
         self.checkForCollision = True
         self.checkForOverlap = True
-        super().__init__(man, pde)
 
+
+    def construct(self):
+        super().construct()
         self.components["PlayerController"] = DebugController(owner=self)
-        self.sprite = self.man.add_object(TestSpriteActor(man=man, pde=pde, position=self.position, scale=[32, 32]))
+        self.sprite = self.man.add_object(TestSpriteActor(man=self.man, pde=self.pde, position=self.position, scale=[32, 32]))
 
         self.replicate = True
         self.replicateInfo = {'position': self.position, 'sprite': r'data\assets\sprites\me.png'}
-
 
     def update(self):
         self.sprite.rect.center = self.rect.center
@@ -120,6 +128,7 @@ class TestPlayer(Actor):
 
 class SpinProjectile(Actor):
     def __init__(self, man, pde, player, owner=None, position=[0,0], scale=[16,16], speed=[1,1], rotation=0, checkForCollision=False, checkForOverlap=True, lifetime=-1):
+        super().__init__(man, pde)
         self.position=position
         self.scale=scale
         self.checkForCollision=checkForCollision
@@ -130,12 +139,13 @@ class SpinProjectile(Actor):
         self.speed = [2, 2]
         self.owner = owner
 
-        super().__init__(man, pde)
+
+    def construct(self):
+        super().construct()
         self.proj = self.components["Projectile"] = ProjectileComponent(owner=self, rotation=self.rotation, speed=self.speed)
         self.components["Sprite"] = SpriteComponent(owner=self, sprite=r'data\assets\sprites\debug.png', layer=1)
         ai = self.components["AI"] = AIComponent(owner=self)
         ai.addstate(name="default", state=debugAI)
-
 
     def move(self, movement):
         pass

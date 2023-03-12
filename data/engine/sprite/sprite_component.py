@@ -4,7 +4,7 @@ from data.engine.component.component import Component
 
 
 class Sprite(pygame.sprite.Sprite):
-    def __init__(self, parent, sprite, rotation, scale, layer: AbstractGroup) -> None:
+    def __init__(self, parent, sprite, rotation, scale, layer: AbstractGroup):
         super().__init__()
         self.parent = parent
         self.layer = layer
@@ -43,13 +43,11 @@ class Sprite(pygame.sprite.Sprite):
         self.rect.center = self.parent.rect.center
 
     def update(self):
-        if (self.parent.position[0] >= 0 and self.parent.position[1] >=0) or (self.parent.position[0] <= 720 and self.parent.position[1] <= 600):
-            self.updatetransform()
-        return super().update()
+        super().update()
+        self.updatetransform()
 
     
     def deconstruct(self):
-        self.parent.pde.display_manager.group.remove(self)
         self.kill()
         return
 
@@ -67,9 +65,11 @@ class SpriteComponent(Component):
         self.sprite = Sprite(parent=owner, sprite=sprite, layer=layer, rotation=self.owner.rotation, scale=self.owner.scale)
 
     def update(self):
-        self.sprite.update()
         super().update()
+        if self.sprite is not None:
+            self.sprite.update()
 
     def deconstruct(self):
-        self.sprite.deconstruct()
         super().deconstruct()
+        self.sprite.deconstruct()
+        self.sprite = None

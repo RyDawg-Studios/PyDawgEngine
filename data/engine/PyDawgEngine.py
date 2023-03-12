@@ -1,5 +1,6 @@
 import pygame
-from data.engine.game.game import Game
+import _thread as threading
+
 from data.engine.display.display_manager import DisplayManager
 from data.engine.event.event_manager import EventManager
 from data.engine.input.input_manager import InputManager
@@ -17,7 +18,7 @@ class PyDawgEngine:
 
     def __init__(self) -> None:
 
-        game = Game
+        game = DebugGame
 
         self.game = game(pde=self)
         
@@ -87,6 +88,9 @@ class PyDawgEngine:
         self.fps = round(self.clock.get_fps())
 
         pygame.display.set_caption(str(self.fps))
+
+    def quit(self):
+        return
 
 
         

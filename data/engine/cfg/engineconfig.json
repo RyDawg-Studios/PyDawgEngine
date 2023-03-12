@@ -1,17 +1,17 @@
 {
     "config":
     {
-        "caption": "PyDawgEngine",
+        "caption": "Chipset",
         "dimensions": [640, 480],
         "icon": "r'data\\assets\\sprites\\me.png'",
         "fullscreen": false,
         "hideMouseCursor": false,
-        "debugMode": false,
+        "debugMode": true,
 
         "network":
         {
             "connectToServer": false,
-            "address": "69.420.1337.515"
+            "address": "127.0.0.1"
         }
     }
 }

@@ -13,5 +13,4 @@ class MouseManager():
 
 
     def activate(self):
-        if len(self.pde.input_manager.joysticks) > 0:
-            pygame.mouse.set_cursor((8,8),(0,0),(0,0,0,0,0,0,0,0),(0,0,0,0,0,0,0,0))
+        return

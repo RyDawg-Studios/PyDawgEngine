@@ -1,16 +1,10 @@
+import pygame
 from data.engine.component.component import Component
 
 class PlayerController(Component):
-    def __init__(self, owner, **kwargs) -> None:
-        super().__init__(owner, **kwargs)
+    def __init__(self, owner) -> None:
+        super().__init__(owner)
         self.inpman = self.owner.pde.input_manager
-
-        
-        
-        if len(self.inpman.joysticks) > 0:
-            self.resetPos = False
-        else:
-            self.resetPos = True
 
     def update(self):
         if self.owner is not None:
@@ -29,12 +23,14 @@ class PlayerController(Component):
         pass
 
     def on_input(self, input):
-        pass
-
+        if input == pygame.K_F1:
+            self.owner.pde.level_manager.level.objectManager.printobjects()
+            
     def on_mouse(self, button):
         pass
 
     def deconstruct(self):
-        if self in self.owner.pde.player_manager.player_controllers:
-            self.owner.pde.player_manager.player_controllers.remove(self)
+        if self.owner is not None:
+            if self in self.owner.pde.player_manager.player_controllers:
+                self.owner.pde.player_manager.player_controllers.remove(self)
         return super().deconstruct()

@@ -29,11 +29,15 @@ class Sprite(pygame.sprite.Sprite):
         parent.pde.display_manager.group.add(self)
 
     def update(self):
+        if self.text == '':
+            self.text = ' '
         if (self.parent.position[0] >= 0 and self.parent.position[1] >=0) or (self.parent.position[0] <= 720 and self.parent.position[1] <= 600):
             self.updatetransform()
         super().update()
 
     def updatetransform(self):
+        self.scale = self.font.size(self.text)
+
         img = self.font.render(self.text, True, self.color)
         img = pygame.transform.scale(img, self.scale)
         img = pygame.transform.rotate(img, self.rotation)
