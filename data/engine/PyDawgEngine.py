@@ -13,12 +13,13 @@ from data.engine.cfg.config_manager import ConfigManager
 from data.engine.sprite.sprite_manager import SpriteManager
 from data.engine.debug.debugGame import DebugGame
 from data.engine.networking.network import Network
+from data.game.content.sci_game import Leukosite
 
 class PyDawgEngine:
 
     def __init__(self) -> None:
 
-        game = DebugGame
+        game = Leukosite
 
         self.game = game(pde=self)
         

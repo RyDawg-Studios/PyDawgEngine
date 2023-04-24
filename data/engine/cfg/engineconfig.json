@@ -1,12 +1,12 @@
 {
     "config":
     {
-        "caption": "Chipset",
-        "dimensions": [640, 480],
+        "caption": "Leukosite",
+        "dimensions": [640,480],
         "icon": "r'data\\assets\\sprites\\me.png'",
         "fullscreen": false,
-        "hideMouseCursor": false,
-        "debugMode": true,
+        "hideMouseCursor": true,
+        "debugMode": false,
 
         "network":
         {

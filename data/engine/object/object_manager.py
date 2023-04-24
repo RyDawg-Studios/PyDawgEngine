@@ -62,7 +62,7 @@ class ObjectManager:
         print(f"Count: {i}")
         
     def getPlayers(self):
-        for obj in list(self.objects.values()):
+        for obj in list(self.objects):
             for comp in obj.components:
                 if comp == "PlayerController":
                     return obj

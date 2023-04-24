@@ -73,7 +73,7 @@ class Actor(Object):
         hits = []
         objects = []
         
-        for y in [-1,0 , 1]:
+        for y in [-1, 0, 1]:
             for x in [-1, 0, 1]:
                 objs = self.man.quadtree.getQuad(abs(self.quad[0]+x), abs(self.quad[1]+y))
                 if objs is not None:
@@ -166,6 +166,16 @@ class Actor(Object):
                         self.rect.top = object.rect.bottom
                         self.collideInfo["Top"] = True
                         object.collide(self, "Bottom")
+    
+    def getNeighboringObjects(self):
+        objects = []
+        for y in [-1, 0, 1]:
+            for x in [-1, 0, 1]:
+                objs = self.man.quadtree.getQuad(abs(self.quad[0]+x), abs(self.quad[1]+y))
+                if objs is not None:
+                    objects += objs.particles
+        return objects
+
 
     def deconstruct(self, outer=None):
         self.collideInfo["Objects"] = []

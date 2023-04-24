@@ -20,9 +20,9 @@ class QuadTree:
     def subdivide(self):
         parent = self.boundary
 
-        for y in range(self.rows):
+        for y in list(range(self.rows+1)) + [-1, -2]:
             self.bounds.append([])
-            for x in range(self.columns):
+            for x in list(range(self.columns+1))  + [-1, -2]:
                 self.bounds[y].append(Rectangle(position=Vector2(x*int(self.pde.config_manager.config["config"]["dimensions"][0]/self.columns), y*int(self.pde.config_manager.config["config"]["dimensions"][1]/self.rows)), scale=[int(self.pde.config_manager.config["config"]["dimensions"][0]/self.columns), int(self.pde.config_manager.config["config"]["dimensions"][1]/self.rows)]))
             
     def insert(self, particle):

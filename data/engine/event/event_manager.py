@@ -14,7 +14,6 @@ class EventManager:
     def update(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                self.pde.network_manager.disconnect()
                 pygame.quit()
                 sys.exit()
             else:

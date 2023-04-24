@@ -10,7 +10,7 @@ class Sprite(pygame.sprite.Sprite):
         self.layer = layer
         self.opacity = 255
 
-        self.text = text
+        self.text = str(text)
         self.font = font
         self.color = color
 
@@ -31,8 +31,7 @@ class Sprite(pygame.sprite.Sprite):
     def update(self):
         if self.text == '':
             self.text = ' '
-        if (self.parent.position[0] >= 0 and self.parent.position[1] >=0) or (self.parent.position[0] <= 720 and self.parent.position[1] <= 600):
-            self.updatetransform()
+        self.updatetransform()
         super().update()
 
     def updatetransform(self):
