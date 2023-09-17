@@ -10,7 +10,7 @@ class Sprite(pygame.sprite.Sprite):
         self.layer = layer
         self.opacity = 255
 
-        self.text = str(text)
+        self.text = text
         self.font = font
         self.color = color
 
@@ -18,7 +18,7 @@ class Sprite(pygame.sprite.Sprite):
         self.rotation = rotation
         
 
-        self.image = self.font.render(self.text, True, self.color)
+        self.image = self.font.render(str(self.text), True, self.color)
         self.ogimage = self.image
 
         self.rect = self.ogimage.get_rect()
@@ -35,9 +35,9 @@ class Sprite(pygame.sprite.Sprite):
         super().update()
 
     def updatetransform(self):
-        self.scale = self.font.size(self.text)
+        self.scale = self.font.size(str(self.text))
 
-        img = self.font.render(self.text, True, self.color)
+        img = self.font.render(str(self.text), True, self.color)
         img = pygame.transform.scale(img, self.scale)
         img = pygame.transform.rotate(img, self.rotation)
         self.image = img

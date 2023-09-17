@@ -3,19 +3,19 @@ from data.engine.component.component import Component
 import math
 
 class ProjectileComponent(Component):
-    def __init__(self, owner, rotation=0, velocity=[0,0], speed=[0,0], **kwargs) -> None:
+    def __init__(self, owner, rotation=0, velocity=[0,0], speed=[0,0]) -> None:
+        super().__init__(owner)
         self.rotation = rotation
         self.velocity = velocity
         self.speed = speed
         self.owner = owner
         self.position = self.owner.position
-        super().__init__(owner, **kwargs)
 
 
         
     def update(self):
+        super().update()
         self.travel()
-        return super().update()
 
     def travel(self):
         vel = self.updatevelocity()

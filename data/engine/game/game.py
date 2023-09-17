@@ -12,3 +12,6 @@ class Game:
     def update(self):
         pass
 
+    def add_player(self, data):
+        return
+

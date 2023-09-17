@@ -13,36 +13,37 @@ class SciGameController(PlayerController):
         self.ticks = 0
 
     def manage_input(self):
+        super().manage_input()
         self.ticks += 1
-        if pygame.K_RIGHT in self.owner.pde.input_manager.key_inputs or pygame.K_d in self.owner.pde.input_manager.key_inputs:
-            self.owner.movement[0] = 2
-        elif pygame.K_LEFT in self.owner.pde.input_manager.key_inputs or pygame.K_a in self.owner.pde.input_manager.key_inputs:
-            self.owner.movement[0] = -2
+        if pygame.K_RIGHT in self.key_inputs or pygame.K_d in self.key_inputs:
+            self.owner.movement[0] = 1
+        elif pygame.K_LEFT in self.key_inputs or pygame.K_a in self.key_inputs:
+            self.owner.movement[0] = -1
         else:
             self.owner.movement[0] = 0
-        
-        if pygame.K_UP in self.owner.pde.input_manager.key_inputs or pygame.K_w in self.owner.pde.input_manager.key_inputs:
-            self.owner.movement[1] = -2
-        elif pygame.K_DOWN in self.owner.pde.input_manager.key_inputs or pygame.K_s in self.owner.pde.input_manager.key_inputs:
-            self.owner.movement[1] = 2
+        if pygame.K_UP in self.key_inputs or pygame.K_w in self.key_inputs:
+            self.owner.movement[1] = -1
+        elif pygame.K_DOWN in self.key_inputs or pygame.K_s in self.key_inputs:
+            self.owner.movement[1] = 1
         else:
             self.owner.movement[1] = 0
+
 
         if self.owner.pde.input_manager.mouse_inputs[0] or pygame.K_SPACE in self.owner.pde.input_manager.key_inputs or self.owner.pde.input_manager.controller_axis_values[5] > 0:
             if self.ticks >= self.owner.shotInfo['fireRate']:
                 self.owner.shoot()
                 self.ticks = 0
-        return super().manage_input()
 
     def on_joystick(self, event):
+        super().on_joystick(event)
         if event.axis < 2:
             self.owner.speed[event.axis] = round(event.value) * self.owner.maxSpeed[0]
 
         elif event.axis == 2 or event.axis == 3:
             self.owner.reticle.speed[event.axis-2] = event.value * 50
-        return super().on_joystick(event)
 
     def on_input(self, input):
+        super().on_input(input)
         if input == pygame.K_f:
             self.saved_pos = [self.owner.rect.x, self.owner.rect.y]
             print("Position Logged @ " + str(self.saved_pos))
@@ -60,5 +61,4 @@ class SciGameController(PlayerController):
             self.owner.pde.game.bossesKilled += 1
         if input == pygame.K_DOWN:
             self.owner.pde.game.bossesKilled -= 1
-        return super().on_input(input)
 

@@ -15,6 +15,7 @@ class SickleCell(Actor):
         self.lifetime=lifetime
         self.rotation=rotation
         self.speed = speed
+        self.moveable = True
 
     def construct(self):
         super().construct()

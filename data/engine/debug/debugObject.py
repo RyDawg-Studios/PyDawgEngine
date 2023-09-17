@@ -1,7 +1,6 @@
 import pygame
 from data.engine.actor.actor import Actor
 from data.engine.ai.ai_component import AIComponent
-from data.engine.networking.replication_component import ReplicationComponent
 from data.engine.projectile.projectile_component import ProjectileComponent
 from data.engine.sprite.sprite_component import SpriteComponent
 from data.engine.debug.debugAI import debugAI
@@ -12,6 +11,22 @@ from data.engine.object.object import Object
 from data.engine.actor.actor import Actor
 from data.engine.fl.world_fl import objectlookattarget
 from data.engine.sprite.sprite_component import SpriteComponent
+
+class TestRepObject(Object):
+    def __init__(self, man, pde):
+        super().__init__(man, pde)
+        self.replicate = True
+        self.replicable_attributes = [
+            "count"
+        ]
+        self.replication_id = 'test_rep_object'
+
+        self.count = 0
+
+    def construct(self):
+        super().construct()
+
+        print(self.count)
 
 
 class TestSpriteActor(Actor):
@@ -76,7 +91,6 @@ class TestActor(Actor):
     def construct(self):
         super().construct()
         self.components["Sprite"] = SpriteComponent(owner=self, sprite=r'data\assets\sprites\mariohitbox.png', layer=2)
-        self.components["Rep"] = ReplicationComponent(owner=self)
 
     def takedamage(self, obj):
         return True

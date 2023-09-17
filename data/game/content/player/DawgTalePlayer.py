@@ -35,8 +35,10 @@ class DawgTalePlayer(Actor):
         self.supertime = 1500
         self.bulletspeed = 8
         self.shotInfo = {'piercing': False, 'fireRate': self.fireRate, 'offsets': [0], 'accuracyBand': self.accuracyRange, 'bulletSpeed': self.bulletspeed, 'bulletScale': [20, 20]}
+        self.moveable = True
 
         pde.player_manager.__init__(pde=pde)
+
 
 
 
@@ -61,6 +63,7 @@ class DawgTalePlayer(Actor):
                 self.takedamage(1)
 
     def update(self):
+        super().update()
         self.pde.game.score = self.score
         self.ticks += 1
         self.superticks += 1
@@ -82,7 +85,6 @@ class DawgTalePlayer(Actor):
                 self.super = False
                 self.shotType = 'single'
                 self.superticks = 0
-        super().update()
 
     def takedamage(self, dmg):
             self.health -= dmg

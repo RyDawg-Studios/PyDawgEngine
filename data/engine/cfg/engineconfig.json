@@ -1,17 +1,17 @@
 {
     "config":
     {
-        "caption": "Leukosite",
-        "dimensions": [640,480],
+        "caption": "Chipset",
+        "dimensions": [640, 480],
         "icon": "r'data\\assets\\sprites\\me.png'",
         "fullscreen": false,
-        "hideMouseCursor": true,
+        "hideMouseCursor": false,
         "debugMode": false,
 
         "network":
         {
             "connectToServer": false,
-            "address": "127.0.0.1"
+            "address": "localhost"
         }
     }
 }

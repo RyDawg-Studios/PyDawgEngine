@@ -6,6 +6,7 @@ class PlayerManager():
         self.active = False
         self.pde = pde
         self.player_controllers = []
+        self.net_controllers = {}
         
     def update(self):
         return

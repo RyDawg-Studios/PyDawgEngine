@@ -5,13 +5,17 @@ class PlayerController(Component):
     def __init__(self, owner) -> None:
         super().__init__(owner)
         self.inpman = self.owner.pde.input_manager
+        self.key_inputs = []
+        self.mouse_pos = [0,0]
 
     def update(self):
+        super().update()
+        self.key_inputs = self.inpman.key_inputs.copy()
+
         if self.owner is not None:
             if self not in self.owner.pde.player_manager.player_controllers:
                 self.owner.pde.player_manager.player_controllers.append(self)
             self.manage_input()
-        super().update()
 
     def manage_input(self):
         pass
@@ -30,7 +34,7 @@ class PlayerController(Component):
         pass
 
     def deconstruct(self):
+        super().deconstruct()
         if self.owner is not None:
             if self in self.owner.pde.player_manager.player_controllers:
                 self.owner.pde.player_manager.player_controllers.remove(self)
-        return super().deconstruct()

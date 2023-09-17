@@ -13,6 +13,9 @@ class TextBoxElement(Actor):
         self.text = 'Begin typing to enter.'
         self.cleared = False
         self.confirm_event = EventDispatcher()
+        self.checkForCollision=False
+        self.checkForOverlap=False
+        self.moveable=False
 
     def construct(self):
         super().construct()

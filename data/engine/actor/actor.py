@@ -1,5 +1,6 @@
 import gc
 import pygame
+from data.engine.eventdispatcher.eventdispatcher import EventDispatcher
 from data.engine.object.object import Object
 from data.engine.widgets.button import Button
 from data.engine.sprite.sprite_component import SpriteComponent
@@ -42,11 +43,15 @@ class Actor(Object):
         self.checkForOverlap = checkForOverlap
         self.checkForCollision = checkForCollision
         self.useSpriteRectForCollision = False
+        self.moveable = False
 
         # -----< Debug Info >----- #
 
         if self.pde.config_manager.config["config"]["debugMode"]:
             self.components["DebugButton"] = Button(owner=self, bind=self.printDebugInfo)
+
+
+
 
     def construct(self):
         super().construct()
@@ -79,10 +84,10 @@ class Actor(Object):
                 if objs is not None:
                     objects += objs.particles
             
-        if self.checkForOverlap:
+        if self.moveable:
             for object in objects:
                 if isinstance(object, Actor):
-                    if self.checkForOverlap and object.checkForOverlap:
+                    if object.checkForOverlap:
                         if self.collideRect.colliderect(object.collideRect) and object != self and not object.decompose:
                             if object not in self.overlapInfo["Objects"]:
                                 self.overlap(object)
@@ -135,7 +140,7 @@ class Actor(Object):
 
     def checkXcollision(self, movement):
         if self.canMove:
-            self.rect.x += self.movement.x
+            self.rect.x += round(self.movement.x * (self.pde.dt))
             hits = self.getoverlaps()  
             for object in hits:
                 if isinstance(object, Actor) and object.checkForCollision and self.checkForCollision:
@@ -152,7 +157,7 @@ class Actor(Object):
 
     def checkYcollision(self, movement):
         if self.canMove:
-            self.rect.y += self.movement.y
+            self.rect.y += round(self.movement.y * (self.pde.dt))
             hits = self.getoverlaps()  
             for object in hits:
                 if isinstance(object, Actor) and object.checkForCollision and self.checkForCollision:
@@ -175,7 +180,6 @@ class Actor(Object):
                 if objs is not None:
                     objects += objs.particles
         return objects
-
 
     def deconstruct(self, outer=None):
         self.collideInfo["Objects"] = []

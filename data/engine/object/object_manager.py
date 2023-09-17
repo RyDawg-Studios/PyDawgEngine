@@ -15,6 +15,8 @@ class ObjectManager:
 
         self.quadtree = QuadTree(self.quadsize, Rectangle(pygame.Vector2(0, 0), pygame.Vector2(self.pde.config_manager.config["config"]["dimensions"])), pde=self.pde)
 
+        self.pde.event_manager.net_events["spawn"] = self.deserializeNetObject
+
     def add_object(self, obj):
         if obj not in self.objects:
             self.objects.append(obj)
@@ -45,7 +47,6 @@ class ObjectManager:
             self.quadtree.Show(screen=self.pde.display_manager.screen)
 
     def clear(self):
-
         for obj in self.objects:
             obj.deconstruct()
             
@@ -66,6 +67,37 @@ class ObjectManager:
             for comp in obj.components:
                 if comp == "PlayerController":
                     return obj
+
+    def deserializeNetObject(self, data, owner=None):
+        for spawned in self.objects:
+            if spawned.hash == data[0]['hash']:
+                for attr in data[0]['attributes']:
+                    if data[0]['attributes'][attr][1] == False: #Should Deserialize?
+                        setattr(spawned, attr[0], data[0]['attributes'][attr][0])
+                    else:
+                        setattr(spawned, attr[0], self.deserializeNetObject([data[0]['attributes'][attr][0]], owner=spawned))
+                spawned.onNetworkUpdate_Event.call(data[0])
+                return
+
+        obj = self.pde.replication_tables[data[0]["package_id"]].object_table[data[0]['object_id']](man=self, pde=self.pde)
+        obj.hash = data[0]['hash']
+                
+        for attr in data[0]['attributes']:
+                if attr[0] == "owner":
+                    if owner is not None:
+                        setattr(obj, attr[0], owner)
+                else:
+                    if data[0]['attributes'][attr][1] == False: #Should Deserialize?
+                        setattr(obj, attr[0], data[0]['attributes'][attr][0])
+                    else:
+                        setattr(obj, attr[0], self.deserializeNetObject([data[0]['attributes'][attr][0]], owner=obj))
+            
+        self.add_object(obj)
+        obj.onNetworkSpawn_Event.call(data[0])
+        return obj
+    
+    def updateNetObject(self, data):
+        return
 
 
 

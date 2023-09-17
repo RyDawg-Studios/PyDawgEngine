@@ -9,6 +9,9 @@ class ButtonElement(Actor):
         self.sprite = sprite
         self.bind = bind
         self.layer=layer
+        self.checkForCollision=False
+        self.checkForOverlap=False
+        self.moveable=False
 
     def construct(self):
         super().construct()

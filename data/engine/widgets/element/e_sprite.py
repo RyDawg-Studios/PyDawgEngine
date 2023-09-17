@@ -6,6 +6,9 @@ class SpriteElement(Actor):
         super().__init__(man, pde, position, scale, checkForOverlap, checkForCollision, useCenterForPosition, lifetime)
         self.sprite = sprite
         self.layer=layer
+        self.checkForCollision=False
+        self.checkForOverlap=False
+        self.moveable=False
 
     def construct(self):
         super().construct()
