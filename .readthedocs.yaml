@@ -16,5 +16,5 @@ sphinx:
 
 
 python:
-  install: "pygame-ce"
+  install: ["pygame-ce"]
 
