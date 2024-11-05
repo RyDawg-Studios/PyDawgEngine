@@ -8,7 +8,7 @@ from data.game.content.objects.cancerbullet import CancerBullet
 from data.engine.projectile.projectile import Projectile
 
 class CancerCell(Actor):
-    def __init__(self, man, pde, owner, bossman, position=[0,0], scale=[30,30], rotation=0, checkForCollision=False, checkForOverlap=True, spawner=None, hp=30, duperate = random.randint(10, 20), gen=1):
+    def __init__(self, man, pde, owner, bossman, position=[0,0], scale=[30,30], rotation=0, checkForCollision=False, checkForOverlap=True, spawner=None, hp=30, duperate = 21, gen=1):
         super().__init__(man, pde)
         self.position=position
         self.scale=scale
@@ -22,7 +22,8 @@ class CancerCell(Actor):
         self.hp = self.maxhp
         self.shottick = 0
         self.dupetick = 0
-        self.duperate = duperate
+        self.moveable = True
+        self.duperate = duperate - pde.game.difficulty
         self.firerate = 141 - pde.game.difficulty
         self.owner = owner
         self.shotInfo = {'piercing': False, 'fireRate': self.firerate, 'offsets': [0], 'accuracyBand': 40, 'bulletSpeed': 6, 'bulletScale': [20, 20]}
@@ -43,9 +44,9 @@ class CancerCell(Actor):
     def update(self):
         self.dupetick += 1
         if self.dupetick >= self.duperate:
-            if self.gen < 12:
+            if self.gen < 5:
                 if len(self.freespots) > 0:
-                    self.duperate += 10
+                    self.duperate += 20 - (self.pde.game.difficulty / 2)
                     spot = random.choice(self.freespots)
                     self.freespots.remove(spot)
 

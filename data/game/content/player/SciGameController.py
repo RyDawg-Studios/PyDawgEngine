@@ -16,15 +16,15 @@ class SciGameController(PlayerController):
         super().manage_input()
         self.ticks += 1
         if pygame.K_RIGHT in self.key_inputs or pygame.K_d in self.key_inputs:
-            self.owner.movement[0] = 1
+            self.owner.movement[0] = 2
         elif pygame.K_LEFT in self.key_inputs or pygame.K_a in self.key_inputs:
-            self.owner.movement[0] = -1
+            self.owner.movement[0] = -2
         else:
             self.owner.movement[0] = 0
         if pygame.K_UP in self.key_inputs or pygame.K_w in self.key_inputs:
-            self.owner.movement[1] = -1
+            self.owner.movement[1] = -2
         elif pygame.K_DOWN in self.key_inputs or pygame.K_s in self.key_inputs:
-            self.owner.movement[1] = 1
+            self.owner.movement[1] = 2
         else:
             self.owner.movement[1] = 0
 
@@ -61,4 +61,7 @@ class SciGameController(PlayerController):
             self.owner.pde.game.bossesKilled += 1
         if input == pygame.K_DOWN:
             self.owner.pde.game.bossesKilled -= 1
+        if input == pygame.K_p:
+            self.owner.pde.game.wavemanager.currentWave.onfinish()
+            self.owner.pde.game.wavemanager.currentWave.active = False
 

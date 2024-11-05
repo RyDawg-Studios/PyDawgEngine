@@ -12,6 +12,7 @@ class Leukosite(Game):
         self.difficulty = 10
         self.score = 0
         self.bossesKilled = 0
+        self.wavemanager = None
 
     def activate(self):
         self.loadtitlelevel()

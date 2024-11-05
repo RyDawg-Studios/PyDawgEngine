@@ -5,12 +5,12 @@ from data.game.content.objects.cancerboss import CancerCell
 
 class CancerManager(Object):
     def __init__(self, man, pde, position, owner):
+        super().__init__(man, pde)
         self.segments = []
         self.owner = owner
         self.segments.append(man.add_object(CancerCell(man=man, pde=pde, position=position, rotation=0, owner=self, bossman=self)))
 
         self.done = False
-        super().__init__(man, pde)
 
     def update(self):
         super().update()

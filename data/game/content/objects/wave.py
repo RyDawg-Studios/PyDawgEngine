@@ -9,7 +9,7 @@ class Wave():
     def update(self):
         if self.active:
             self.time += 1
-            if self.time == self.timeTarget:
+            if self.time >= self.timeTarget:
                 self.time = 0
                 if self.active == True:
                     self.onfinish()
